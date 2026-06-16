@@ -15,8 +15,23 @@ router.get("/", listEmbeddedVideos);
 router.get("/:id", getEmbeddedVideo);
 
 // Admin CRUD
-router.post("/admin", protect, requireRole(["admin", "super"]), createEmbeddedVideo);
-router.put("/admin/:id", protect, requireRole(["admin", "super"]), updateEmbeddedVideo);
-router.delete("/admin/:id", protect, requireRole(["admin", "super"]), deleteEmbeddedVideo);
+router.post(
+  "/admin",
+  protect,
+  requireRole(["admin", "super"]),
+  createEmbeddedVideo,
+);
+router.put(
+  "/admin/:id",
+  protect,
+  requireRole(["admin", "super"]),
+  updateEmbeddedVideo,
+);
+router.delete(
+  "/admin/:id",
+  protect,
+  requireRole(["admin", "super"]),
+  deleteEmbeddedVideo,
+);
 
 export default router;

@@ -22,8 +22,8 @@ export function AnonymousChat() {
       id: "1",
       text: "Hello! Welcome to our anonymous support chat. This is a safe, confidential space where you can ask any questions about reproductive health, education, or personal concerns. How can we help you today?",
       sender: "support",
-      timestamp: new Date(Date.now() - 60000)
-    }
+      timestamp: new Date(Date.now() - 60000),
+    },
   ]);
 
   const handleSend = () => {
@@ -33,7 +33,7 @@ export function AnonymousChat() {
       id: Date.now().toString(),
       text: message,
       sender: "user",
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     setMessages([...messages, newMessage]);
@@ -45,14 +45,17 @@ export function AnonymousChat() {
         id: (Date.now() + 1).toString(),
         text: "Thank you for reaching out. A trained counselor will respond to your message shortly. In the meantime, you can explore our educational resources or FAQs for immediate information.",
         sender: "support",
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      setMessages(prev => [...prev, supportMessage]);
+      setMessages((prev) => [...prev, supportMessage]);
     }, 2000);
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -77,7 +80,9 @@ export function AnonymousChat() {
               </div>
             </div>
           </div>
-          <p className="text-blue-100 text-sm ml-14">Private & confidential support</p>
+          <p className="text-blue-100 text-sm ml-14">
+            Private & confidential support
+          </p>
         </div>
       </header>
 
@@ -89,7 +94,9 @@ export function AnonymousChat() {
               <Shield className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  <strong className="text-blue-900">100% Anonymous:</strong> We don't collect personal information. Your conversations are private and confidential.
+                  <strong className="text-blue-900">100% Anonymous:</strong> We
+                  don't collect personal information. Your conversations are
+                  private and confidential.
                 </p>
               </div>
             </div>
@@ -114,15 +121,23 @@ export function AnonymousChat() {
               {msg.sender === "support" && (
                 <div className="flex items-center gap-2 mb-2">
                   <MessageCircle className="w-4 h-4 text-blue-600" />
-                  <span className="text-xs font-medium text-blue-600">Support Team</span>
+                  <span className="text-xs font-medium text-blue-600">
+                    Support Team
+                  </span>
                 </div>
               )}
-              <p className={`text-sm leading-relaxed ${msg.sender === "user" ? "text-white" : "text-gray-800"}`}>
+              <p
+                className={`text-sm leading-relaxed ${msg.sender === "user" ? "text-white" : "text-gray-800"}`}
+              >
                 {msg.text}
               </p>
               <div className="flex items-center gap-1 mt-2">
-                <Clock className={`w-3 h-3 ${msg.sender === "user" ? "text-teal-100" : "text-gray-400"}`} />
-                <span className={`text-xs ${msg.sender === "user" ? "text-teal-100" : "text-gray-500"}`}>
+                <Clock
+                  className={`w-3 h-3 ${msg.sender === "user" ? "text-teal-100" : "text-gray-400"}`}
+                />
+                <span
+                  className={`text-xs ${msg.sender === "user" ? "text-teal-100" : "text-gray-500"}`}
+                >
                   {formatTime(msg.timestamp)}
                 </span>
               </div>

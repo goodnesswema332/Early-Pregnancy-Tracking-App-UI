@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Heart, Mail, Lock, User, ArrowRight, Check } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -47,7 +53,9 @@ export function Signup() {
         {/* Signup Card */}
         <Card className="shadow-xl border-0">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">Create Account</CardTitle>
+            <CardTitle className="text-2xl text-center">
+              Create Account
+            </CardTitle>
             <CardDescription className="text-center">
               Fill in your details to get started
             </CardDescription>
@@ -63,7 +71,9 @@ export function Signup() {
                     type="text"
                     placeholder="Your name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     className="pl-10 h-12"
                     required
                   />
@@ -79,7 +89,9 @@ export function Signup() {
                     type="email"
                     placeholder="you@example.com"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     className="pl-10 h-12"
                     required
                   />
@@ -95,7 +107,9 @@ export function Signup() {
                     type="password"
                     placeholder="At least 8 characters"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     className="pl-10 h-12"
                     required
                     minLength={8}
@@ -112,7 +126,12 @@ export function Signup() {
                     type="password"
                     placeholder="Re-enter password"
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     className="pl-10 h-12"
                     required
                   />
@@ -121,7 +140,9 @@ export function Signup() {
 
               {/* Benefits */}
               <div className="bg-teal-50 rounded-lg p-4 space-y-2">
-                <p className="text-sm text-teal-900 mb-2">You'll get access to:</p>
+                <p className="text-sm text-teal-900 mb-2">
+                  You'll get access to:
+                </p>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-sm text-teal-800">
                     <Check className="w-4 h-4 text-teal-600" />
@@ -151,11 +172,17 @@ export function Signup() {
                   className="text-sm text-gray-600 leading-tight cursor-pointer"
                 >
                   I agree to the{" "}
-                  <button type="button" className="text-teal-600 hover:underline">
+                  <button
+                    type="button"
+                    className="text-teal-600 hover:underline"
+                  >
                     Terms of Service
                   </button>{" "}
                   and{" "}
-                  <button type="button" className="text-teal-600 hover:underline">
+                  <button
+                    type="button"
+                    className="text-teal-600 hover:underline"
+                  >
                     Privacy Policy
                   </button>
                 </label>

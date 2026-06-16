@@ -1,5 +1,22 @@
-import { User, Award, TrendingUp, Settings, Bell, HelpCircle, LogOut, Star, Trophy, Target } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  User,
+  Award,
+  TrendingUp,
+  Settings,
+  Bell,
+  HelpCircle,
+  LogOut,
+  Star,
+  Trophy,
+  Target,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
@@ -14,7 +31,9 @@ export function Profile() {
         <div className="max-w-md mx-auto">
           <div className="flex items-center gap-4">
             <Avatar className="w-16 h-16 border-4 border-white/30">
-              <AvatarFallback className="bg-teal-700 text-white text-2xl">A</AvatarFallback>
+              <AvatarFallback className="bg-teal-700 text-white text-2xl">
+                A
+              </AvatarFallback>
             </Avatar>
             <div className="flex-1">
               <h1 className="text-2xl mb-1">Alex</h1>
@@ -92,7 +111,9 @@ export function Profile() {
               <p className="text-sm text-gray-600 mb-3">
                 Next badge: Complete 10 quizzes
               </p>
-              <Badge variant="secondary" className="bg-gray-100">7/10 completed</Badge>
+              <Badge variant="secondary" className="bg-gray-100">
+                7/10 completed
+              </Badge>
             </div>
           </CardContent>
         </Card>

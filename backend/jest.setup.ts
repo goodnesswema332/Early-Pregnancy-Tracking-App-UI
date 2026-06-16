@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongo.getUri();
-  await mongoose.connect(process.env.MONGODB_URI || '');
+  await mongoose.connect(process.env.MONGODB_URI || "");
 });
 
 afterAll(async () => {

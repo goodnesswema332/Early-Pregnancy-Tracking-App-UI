@@ -24,4 +24,7 @@ const embeddedVideoSchema = new Schema<IEmbeddedVideo>({
   protected: { type: Boolean, default: false },
 });
 
-export default mongoose.model<IEmbeddedVideo>("EmbeddedVideo", embeddedVideoSchema);
+export default mongoose.model<IEmbeddedVideo>(
+  "EmbeddedVideo",
+  embeddedVideoSchema,
+);

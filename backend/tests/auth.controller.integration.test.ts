@@ -1,6 +1,13 @@
-import { register, login, getMe, refreshToken, logout, seedAdmin } from '../src/controllers/authController';
-import User from '../src/models/User';
-import RefreshToken from '../src/models/RefreshToken';
+import {
+  register,
+  login,
+  getMe,
+  refreshToken,
+  logout,
+  seedAdmin,
+} from "../src/controllers/authController";
+import User from "../src/models/User";
+import RefreshToken from "../src/models/RefreshToken";
 
 function makeReq(body: any = {}, user: any = undefined) {
   return { body, user } as any;
@@ -24,10 +31,14 @@ function makeRes() {
   } as any;
 }
 
-describe('Auth controller integration (direct)', () => {
-  const user = { name: 'Ctrl User', email: 'ctrl@example.com', password: 'passw0rd' };
+describe("Auth controller integration (direct)", () => {
+  const user = {
+    name: "Ctrl User",
+    email: "ctrl@example.com",
+    password: "passw0rd",
+  };
 
-  it('register -> login -> getMe -> refresh -> logout', async () => {
+  it("register -> login -> getMe -> refresh -> logout", async () => {
     const reqReg = makeReq(user);
     const resReg = makeRes();
     await register(reqReg, resReg);
@@ -64,23 +75,35 @@ describe('Auth controller integration (direct)', () => {
     expect(outRefresh.body.success).toBe(true);
 
     // logout
-    const reqLogout = makeReq({ refreshToken: outRefresh.body.data.refreshToken });
+    const reqLogout = makeReq({
+      refreshToken: outRefresh.body.data.refreshToken,
+    });
     const resLogout = makeRes();
     await logout(reqLogout as any, resLogout as any);
     const outLogout = resLogout._get();
     expect(outLogout.statusCode).toBe(200);
   });
 
-  it('seedAdmin requires secret and creates super', async () => {
+  it("seedAdmin requires secret and creates super", async () => {
     const res = makeRes();
-    const req = makeReq({ name: 'Seed', email: 'seed@example.com', password: 'seedpass', secret: 'wrong' });
+    const req = makeReq({
+      name: "Seed",
+      email: "seed@example.com",
+      password: "seedpass",
+      secret: "wrong",
+    });
     await seedAdmin(req as any, res as any);
     const out = res._get();
     expect(out.statusCode).toBe(403);
 
-    process.env.ADMIN_CREATE_SECRET = 'topsecret';
+    process.env.ADMIN_CREATE_SECRET = "topsecret";
     const res2 = makeRes();
-    const req2 = makeReq({ name: 'Seed', email: 'seed@example.com', password: 'seedpass', secret: 'topsecret' });
+    const req2 = makeReq({
+      name: "Seed",
+      email: "seed@example.com",
+      password: "seedpass",
+      secret: "topsecret",
+    });
     await seedAdmin(req2 as any, res2 as any);
     const out2 = res2._get();
     expect([200, 201]).toContain(out2.statusCode);

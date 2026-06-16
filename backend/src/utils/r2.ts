@@ -20,14 +20,29 @@ export const generatePresignedUploadUrl = async (
   expiresIn = 900,
 ) => {
   if (!R2_BUCKET) throw new Error("R2_BUCKET not configured");
-  const command = new PutObjectCommand({ Bucket: R2_BUCKET, Key: key, ContentType: contentType });
+  const command = new PutObjectCommand({
+    Bucket: R2_BUCKET,
+    Key: key,
+    ContentType: contentType,
+  });
   const url = await getSignedUrl(client, command, { expiresIn });
   return url;
 };
 
-export const uploadBuffer = async (key: string, buffer: Buffer, contentType = "application/octet-stream") => {
+export const uploadBuffer = async (
+  key: string,
+  buffer: Buffer,
+  contentType = "application/octet-stream",
+) => {
   if (!R2_BUCKET) throw new Error("R2_BUCKET not configured");
-  await client.send(new PutObjectCommand({ Bucket: R2_BUCKET, Key: key, Body: buffer, ContentType: contentType }));
+  await client.send(
+    new PutObjectCommand({
+      Bucket: R2_BUCKET,
+      Key: key,
+      Body: buffer,
+      ContentType: contentType,
+    }),
+  );
   // Return public URL - Cloudflare R2 custom domain or account endpoint expected in env
   if (process.env.R2_PUBLIC_BASE_URL) {
     return `${process.env.R2_PUBLIC_BASE_URL.replace(/\/$/, "")}/${key}`;

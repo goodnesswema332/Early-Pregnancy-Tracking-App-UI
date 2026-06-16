@@ -9,11 +9,19 @@ const REFRESH_TOKEN_EXPIRES_DAYS = parseInt(
 );
 
 export const generateAccessToken = (id: string): string => {
-  return jwt.sign({ id }, JWT_SECRET as any, { expiresIn: ACCESS_TOKEN_EXPIRES_IN } as any);
+  return jwt.sign(
+    { id },
+    JWT_SECRET as any,
+    { expiresIn: ACCESS_TOKEN_EXPIRES_IN } as any,
+  );
 };
 
 export const verifyAccessToken = (token: string) => {
-  return jwt.verify(token, JWT_SECRET as any) as { id: string; iat: number; exp: number };
+  return jwt.verify(token, JWT_SECRET as any) as {
+    id: string;
+    iat: number;
+    exp: number;
+  };
 };
 
 export const generateRefreshTokenPair = () => {

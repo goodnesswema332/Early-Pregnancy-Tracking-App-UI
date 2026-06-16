@@ -1,7 +1,12 @@
 import { ArrowLeft, X, Check, AlertCircle, Lightbulb } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { BottomNav } from "../components/BottomNav";
@@ -23,75 +28,93 @@ export function MythBusting() {
       id: "1",
       category: "Pregnancy Facts",
       myth: "You can't get pregnant the first time",
-      truth: "FALSE - You can get pregnant any time you engage in sexual activity, including the first time.",
-      explanation: "Once a girl starts menstruating, pregnancy is possible. The risk exists regardless of whether it's the first time or not. This is why understanding reproductive health and making informed decisions is crucial."
+      truth:
+        "FALSE - You can get pregnant any time you engage in sexual activity, including the first time.",
+      explanation:
+        "Once a girl starts menstruating, pregnancy is possible. The risk exists regardless of whether it's the first time or not. This is why understanding reproductive health and making informed decisions is crucial.",
     },
     {
       id: "2",
       category: "Pregnancy Facts",
       myth: "You can't get pregnant during your period",
-      truth: "FALSE - While less likely, pregnancy can still occur during menstruation.",
-      explanation: "Sperm can live inside the body for several days. If you have a short menstrual cycle, ovulation could occur soon after your period, making pregnancy possible. There is no 'completely safe' time."
+      truth:
+        "FALSE - While less likely, pregnancy can still occur during menstruation.",
+      explanation:
+        "Sperm can live inside the body for several days. If you have a short menstrual cycle, ovulation could occur soon after your period, making pregnancy possible. There is no 'completely safe' time.",
     },
     {
       id: "3",
       category: "Prevention",
       myth: "Jumping up and down after sex prevents pregnancy",
-      truth: "FALSE - Physical activities like jumping, douching, or urinating do not prevent pregnancy.",
-      explanation: "Once conception occurs, no physical action can reverse it. The only sure way to prevent pregnancy is abstinence. Methods like these are dangerous myths that put young people at risk."
+      truth:
+        "FALSE - Physical activities like jumping, douching, or urinating do not prevent pregnancy.",
+      explanation:
+        "Once conception occurs, no physical action can reverse it. The only sure way to prevent pregnancy is abstinence. Methods like these are dangerous myths that put young people at risk.",
     },
     {
       id: "4",
       category: "Education",
       myth: "Talking about reproductive health encourages sexual activity",
-      truth: "FALSE - Education actually helps young people make safer, more informed decisions.",
-      explanation: "Research shows that comprehensive reproductive health education delays sexual activity and reduces teen pregnancy rates. Knowledge empowers you to make responsible choices about your future."
+      truth:
+        "FALSE - Education actually helps young people make safer, more informed decisions.",
+      explanation:
+        "Research shows that comprehensive reproductive health education delays sexual activity and reduces teen pregnancy rates. Knowledge empowers you to make responsible choices about your future.",
     },
     {
       id: "5",
       category: "Health",
       myth: "You can tell if someone has an STI by looking at them",
-      truth: "FALSE - Many sexually transmitted infections have no visible symptoms.",
-      explanation: "STIs often have no obvious signs, which is why they spread so easily. This is another reason why abstinence until you're ready and with the right person is the safest choice for young people."
+      truth:
+        "FALSE - Many sexually transmitted infections have no visible symptoms.",
+      explanation:
+        "STIs often have no obvious signs, which is why they spread so easily. This is another reason why abstinence until you're ready and with the right person is the safest choice for young people.",
     },
     {
       id: "6",
       category: "Pregnancy Facts",
       myth: "You can't get pregnant if you don't reach orgasm",
       truth: "FALSE - Pregnancy has nothing to do with orgasm or pleasure.",
-      explanation: "Pregnancy occurs when sperm meets egg, regardless of anyone's feelings or physical sensations. This myth is completely false and dangerously misleading."
+      explanation:
+        "Pregnancy occurs when sperm meets egg, regardless of anyone's feelings or physical sensations. This myth is completely false and dangerously misleading.",
     },
     {
       id: "7",
       category: "Education",
       myth: "Only 'bad girls' need reproductive health information",
       truth: "FALSE - Every young person deserves accurate health information.",
-      explanation: "Seeking knowledge about your body and health is responsible and smart, not shameful. Understanding reproductive health helps you protect your future, make informed decisions, and achieve your goals."
+      explanation:
+        "Seeking knowledge about your body and health is responsible and smart, not shameful. Understanding reproductive health helps you protect your future, make informed decisions, and achieve your goals.",
     },
     {
       id: "8",
       category: "Prevention",
       myth: "Early pregnancy isn't that serious",
-      truth: "FALSE - Early pregnancy has serious consequences for health, education, and future opportunities.",
-      explanation: "Teen mothers are more likely to drop out of school, face health complications, experience poverty, and have limited career options. Early pregnancy affects not just you, but your entire future and your family."
+      truth:
+        "FALSE - Early pregnancy has serious consequences for health, education, and future opportunities.",
+      explanation:
+        "Teen mothers are more likely to drop out of school, face health complications, experience poverty, and have limited career options. Early pregnancy affects not just you, but your entire future and your family.",
     },
     {
       id: "9",
       category: "Health",
       myth: "You can't get pregnant while breastfeeding",
-      truth: "FALSE - Breastfeeding is not a reliable form of pregnancy prevention.",
-      explanation: "While breastfeeding can delay the return of menstruation, ovulation can occur before your period returns, making pregnancy possible. This myth has led to many unplanned pregnancies."
+      truth:
+        "FALSE - Breastfeeding is not a reliable form of pregnancy prevention.",
+      explanation:
+        "While breastfeeding can delay the return of menstruation, ovulation can occur before your period returns, making pregnancy possible. This myth has led to many unplanned pregnancies.",
     },
     {
       id: "10",
       category: "Support",
       myth: "I can't talk to my parents about reproductive health",
-      truth: "FALSE - Many parents want to support their children but may need help starting the conversation.",
-      explanation: "While it might feel awkward, most parents care deeply about your wellbeing and safety. They can be valuable sources of guidance. If talking to parents is difficult, seek help from school counselors, trusted teachers, or youth-friendly health services."
-    }
+      truth:
+        "FALSE - Many parents want to support their children but may need help starting the conversation.",
+      explanation:
+        "While it might feel awkward, most parents care deeply about your wellbeing and safety. They can be valuable sources of guidance. If talking to parents is difficult, seek help from school counselors, trusted teachers, or youth-friendly health services.",
+    },
   ];
 
-  const categories = Array.from(new Set(myths.map(m => m.category)));
+  const categories = Array.from(new Set(myths.map((m) => m.category)));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-coral-50 to-white pb-20">
@@ -109,7 +132,9 @@ export function MythBusting() {
               <h1 className="text-xl">Myth vs. Fact</h1>
             </div>
           </div>
-          <p className="text-coral-100 text-sm ml-14">Learn the truth about common myths</p>
+          <p className="text-coral-100 text-sm ml-14">
+            Learn the truth about common myths
+          </p>
         </div>
       </header>
 
@@ -121,10 +146,15 @@ export function MythBusting() {
               <AlertCircle className="w-6 h-6 text-coral-600 flex-shrink-0 mt-1" />
               <div>
                 <p className="text-sm mb-2">
-                  <strong className="text-coral-900">Fight Misinformation</strong>
+                  <strong className="text-coral-900">
+                    Fight Misinformation
+                  </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  There are many dangerous myths about reproductive health spread through friends, social media, and the internet. Let's separate fact from fiction to help you make informed decisions.
+                  There are many dangerous myths about reproductive health
+                  spread through friends, social media, and the internet. Let's
+                  separate fact from fiction to help you make informed
+                  decisions.
                 </p>
               </div>
             </div>
@@ -148,24 +178,29 @@ export function MythBusting() {
         </div>
 
         {/* Myths by Category */}
-        {categories.map(category => (
+        {categories.map((category) => (
           <div key={category} className="space-y-3">
             <div className="flex items-center gap-2 px-1">
-              <Badge variant="secondary" className="bg-coral-100 text-coral-700">
+              <Badge
+                variant="secondary"
+                className="bg-coral-100 text-coral-700"
+              >
                 {category}
               </Badge>
             </div>
 
             <div className="space-y-3">
               {myths
-                .filter(m => m.category === category)
-                .map(myth => (
+                .filter((m) => m.category === category)
+                .map((myth) => (
                   <Card
                     key={myth.id}
                     className={`shadow-md hover:shadow-lg transition-all cursor-pointer ${
                       selectedMyth === myth.id ? "ring-2 ring-coral-500" : ""
                     }`}
-                    onClick={() => setSelectedMyth(selectedMyth === myth.id ? null : myth.id)}
+                    onClick={() =>
+                      setSelectedMyth(selectedMyth === myth.id ? null : myth.id)
+                    }
                   >
                     <CardHeader className="pb-3">
                       <div className="flex items-start gap-3">

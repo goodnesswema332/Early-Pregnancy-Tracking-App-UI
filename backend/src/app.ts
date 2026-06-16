@@ -8,7 +8,10 @@ const app = express();
 
 app.use(helmet());
 app.use(
-  cors({ origin: process.env.FRONTEND_URL || "http://localhost:8081", credentials: true }),
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:8081",
+    credentials: true,
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,15 +39,28 @@ app.use("/api/videos", embeddedVideosRoutes);
 app.use("/api/uploads", uploadsRoutes);
 
 // Serve uploaded thumbnails and static assets
-app.use("/uploads", express.static(path.join(__dirname, "..", "..", "uploads")));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "..", "..", "uploads")),
+);
 
 // Health check
-app.get("/api/health", (req, res) => res.json({ status: "ok", message: "API is running", timestamp: new Date().toISOString() }));
+app.get("/api/health", (req, res) =>
+  res.json({
+    status: "ok",
+    message: "API is running",
+    timestamp: new Date().toISOString(),
+  }),
+);
 
 // Error handling
 app.use((err: any, req: any, res: any, _next: any) => {
   console.error(err.stack);
-  res.status(err.status || 500).json({ success: false, message: err.message || "Internal Server Error", ...(process.env.NODE_ENV === "development" && { stack: err.stack }) });
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+  });
 });
 
 // 404

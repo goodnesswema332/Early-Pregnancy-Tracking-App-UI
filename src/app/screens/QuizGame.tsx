@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { ArrowLeft, CheckCircle2, XCircle, Lightbulb } from "lucide-react";
 import { useNavigate, useParams } from "react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
 import { Badge } from "../components/ui/badge";
@@ -20,31 +26,38 @@ const quizData: Record<string, { title: string; questions: Question[] }> = {
     questions: [
       {
         id: 1,
-        question: "You can tell if you're pregnant just by looking at symptoms within the first week.",
+        question:
+          "You can tell if you're pregnant just by looking at symptoms within the first week.",
         options: ["Myth", "Fact"],
         correctAnswer: 0,
-        explanation: "Most pregnancy symptoms don't appear until at least 1-2 weeks after conception. Early symptoms are often similar to PMS and can be misleading.",
+        explanation:
+          "Most pregnancy symptoms don't appear until at least 1-2 weeks after conception. Early symptoms are often similar to PMS and can be misleading.",
       },
       {
         id: 2,
-        question: "Stress and irregular periods can affect menstrual cycles and pregnancy timing.",
+        question:
+          "Stress and irregular periods can affect menstrual cycles and pregnancy timing.",
         options: ["Myth", "Fact"],
         correctAnswer: 1,
-        explanation: "Stress, changes in routine, and health factors can absolutely affect menstrual regularity and ovulation timing.",
+        explanation:
+          "Stress, changes in routine, and health factors can absolutely affect menstrual regularity and ovulation timing.",
       },
       {
         id: 3,
-        question: "Home pregnancy tests are most accurate when taken first thing in the morning.",
+        question:
+          "Home pregnancy tests are most accurate when taken first thing in the morning.",
         options: ["Myth", "Fact"],
         correctAnswer: 1,
-        explanation: "Morning urine is most concentrated, which makes it easier for the test to detect pregnancy hormones, especially in early pregnancy.",
+        explanation:
+          "Morning urine is most concentrated, which makes it easier for the test to detect pregnancy hormones, especially in early pregnancy.",
       },
       {
         id: 4,
         question: "You can't get pregnant during your period.",
         options: ["Myth", "Fact"],
         correctAnswer: 0,
-        explanation: "While less common, it is possible to get pregnant during your period, especially if you have shorter cycles or irregular periods.",
+        explanation:
+          "While less common, it is possible to get pregnant during your period, especially if you have shorter cycles or irregular periods.",
       },
     ],
   },
@@ -71,7 +84,7 @@ export function QuizGame() {
 
   const handleSubmit = () => {
     if (selectedAnswer === null) return;
-    
+
     setShowExplanation(true);
     if (selectedAnswer === question.correctAnswer) {
       setScore(score + 1);
@@ -175,15 +188,17 @@ export function QuizGame() {
               const isCorrect = index === question.correctAnswer;
               const showResult = showExplanation;
 
-              let buttonClasses = "w-full h-auto py-4 px-6 text-base justify-start border-2 transition-all ";
-              
+              let buttonClasses =
+                "w-full h-auto py-4 px-6 text-base justify-start border-2 transition-all ";
+
               if (!showResult) {
                 buttonClasses += isSelected
                   ? "bg-purple-100 border-purple-500 text-purple-700"
                   : "bg-white border-gray-200 hover:border-purple-300 text-gray-700";
               } else {
                 if (isCorrect) {
-                  buttonClasses += "bg-green-100 border-green-500 text-green-700";
+                  buttonClasses +=
+                    "bg-green-100 border-green-500 text-green-700";
                 } else if (isSelected && !isCorrect) {
                   buttonClasses += "bg-red-100 border-red-500 text-red-700";
                 } else {
@@ -220,7 +235,9 @@ export function QuizGame() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Lightbulb className="w-5 h-5 text-blue-600" />
-                <CardTitle className="text-base text-blue-900">Did you know?</CardTitle>
+                <CardTitle className="text-base text-blue-900">
+                  Did you know?
+                </CardTitle>
               </div>
               <CardDescription className="text-sm text-gray-700">
                 {question.explanation}
@@ -244,7 +261,9 @@ export function QuizGame() {
               onClick={handleNext}
               className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:opacity-90 h-12 text-base"
             >
-              {currentQuestion < quiz.questions.length - 1 ? "Next Question →" : "See Results"}
+              {currentQuestion < quiz.questions.length - 1
+                ? "Next Question →"
+                : "See Results"}
             </Button>
           )}
         </div>

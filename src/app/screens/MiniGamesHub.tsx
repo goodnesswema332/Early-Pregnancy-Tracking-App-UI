@@ -1,6 +1,20 @@
-import { ArrowLeft, Trophy, Star, Zap, Brain, Target, Award } from "lucide-react";
+import {
+  ArrowLeft,
+  Trophy,
+  Star,
+  Zap,
+  Brain,
+  Target,
+  Award,
+} from "lucide-react";
 import { useNavigate } from "react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { BottomNav } from "../components/BottomNav";
@@ -25,7 +39,8 @@ export function MiniGamesHub() {
     {
       id: "myth-vs-fact",
       title: "Myth vs. Fact Challenge",
-      description: "Test your knowledge by separating pregnancy myths from medical facts",
+      description:
+        "Test your knowledge by separating pregnancy myths from medical facts",
       icon: Brain,
       color: "text-purple-600",
       bgGradient: "from-purple-500 to-purple-600",
@@ -37,7 +52,8 @@ export function MiniGamesHub() {
     {
       id: "scenario-quiz",
       title: "Real-Life Scenarios",
-      description: "Make informed decisions in realistic situations and learn from outcomes",
+      description:
+        "Make informed decisions in realistic situations and learn from outcomes",
       icon: Target,
       color: "text-blue-600",
       bgGradient: "from-blue-500 to-blue-600",
@@ -47,7 +63,8 @@ export function MiniGamesHub() {
     {
       id: "health-trivia",
       title: "Health & Wellness Trivia",
-      description: "Answer questions about nutrition, mental health, and self-care",
+      description:
+        "Answer questions about nutrition, mental health, and self-care",
       icon: Zap,
       color: "text-amber-600",
       bgGradient: "from-amber-500 to-amber-600",
@@ -59,7 +76,8 @@ export function MiniGamesHub() {
     {
       id: "support-navigator",
       title: "Support Navigator",
-      description: "Learn how to find and access support resources in your community",
+      description:
+        "Learn how to find and access support resources in your community",
       icon: Award,
       color: "text-teal-600",
       bgGradient: "from-teal-500 to-teal-600",
@@ -74,7 +92,10 @@ export function MiniGamesHub() {
       <header className="bg-gradient-to-r from-coral-500 to-coral-600 text-white px-6 py-6 rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto">
           <div className="flex items-center gap-4 mb-4">
-            <button onClick={() => navigate("/")} className="text-white/90 hover:text-white">
+            <button
+              onClick={() => navigate("/")}
+              className="text-white/90 hover:text-white"
+            >
               <ArrowLeft className="w-6 h-6" />
             </button>
             <div>
@@ -108,16 +129,23 @@ export function MiniGamesHub() {
         {games.map((game) => {
           const Icon = game.icon;
           return (
-            <Card key={game.id} className="overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+            <Card
+              key={game.id}
+              className="overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+            >
               <div className={`h-2 bg-gradient-to-r ${game.bgGradient}`} />
               <CardHeader>
                 <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${game.bgGradient} text-white`}>
+                  <div
+                    className={`p-3 rounded-xl bg-gradient-to-br ${game.bgGradient} text-white`}
+                  >
                     <Icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <CardTitle className="text-lg leading-snug">{game.title}</CardTitle>
+                      <CardTitle className="text-lg leading-snug">
+                        {game.title}
+                      </CardTitle>
                       {game.completed && (
                         <Badge className="bg-green-100 text-green-700 border-green-200">
                           ✓ Done
@@ -141,7 +169,10 @@ export function MiniGamesHub() {
                   </div>
                   {game.score !== undefined && (
                     <div className="text-gray-600">
-                      Score: <span className="font-semibold text-teal-600">{game.score}/{game.points}</span>
+                      Score:{" "}
+                      <span className="font-semibold text-teal-600">
+                        {game.score}/{game.points}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -164,7 +195,8 @@ export function MiniGamesHub() {
               <CardTitle className="text-base">Keep Playing!</CardTitle>
             </div>
             <CardDescription className="text-sm text-gray-700">
-              Each game you complete earns you points and badges. Climb the leaderboard and unlock achievements!
+              Each game you complete earns you points and badges. Climb the
+              leaderboard and unlock achievements!
             </CardDescription>
           </CardHeader>
         </Card>

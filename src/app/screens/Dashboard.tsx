@@ -1,6 +1,23 @@
-import { Sparkles, BookOpen, Gamepad2, Target, Award, TrendingUp, MessageCircle, MapPin, Star, Shield } from "lucide-react";
+import {
+  Sparkles,
+  BookOpen,
+  Gamepad2,
+  Target,
+  Award,
+  TrendingUp,
+  MessageCircle,
+  MapPin,
+  Star,
+  Shield,
+} from "lucide-react";
 import { useNavigate } from "react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
 import { Badge } from "../components/ui/badge";
@@ -17,9 +34,13 @@ export function Dashboard() {
         <div className="max-w-md mx-auto">
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-2xl">Hey there! 👋</h1>
-            <Badge className="bg-white/20 text-white border-white/30">Day 5</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">
+              Day 5
+            </Badge>
           </div>
-          <p className="text-teal-100">Your safe space for learning and growth</p>
+          <p className="text-teal-100">
+            Your safe space for learning and growth
+          </p>
         </div>
       </header>
 
@@ -30,10 +51,14 @@ export function Dashboard() {
           <CardHeader className="relative">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-coral-500" />
-              <CardTitle className="text-lg text-coral-700">Today's Insight</CardTitle>
+              <CardTitle className="text-lg text-coral-700">
+                Today's Insight
+              </CardTitle>
             </div>
             <CardDescription className="text-base text-gray-700">
-              "Understanding your body is the first step to making informed choices. Knowledge empowers you to take control of your health and future."
+              "Understanding your body is the first step to making informed
+              choices. Knowledge empowers you to take control of your health and
+              future."
             </CardDescription>
           </CardHeader>
         </Card>
@@ -46,7 +71,9 @@ export function Dashboard() {
                 <Target className="w-5 h-5 text-teal-600" />
                 Your Learning Progress
               </CardTitle>
-              <Badge variant="secondary" className="bg-teal-100 text-teal-700">42%</Badge>
+              <Badge variant="secondary" className="bg-teal-100 text-teal-700">
+                42%
+              </Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -159,10 +186,14 @@ export function Dashboard() {
               <Shield className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
               <div>
                 <p className="text-sm mb-2">
-                  <strong className="text-blue-900">Your privacy matters</strong>
+                  <strong className="text-blue-900">
+                    Your privacy matters
+                  </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  Everything you do here is private and confidential. We're here to support you with accurate information to make informed decisions about your future.
+                  Everything you do here is private and confidential. We're here
+                  to support you with accurate information to make informed
+                  decisions about your future.
                 </p>
               </div>
             </div>
@@ -180,14 +211,18 @@ export function Dashboard() {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <Badge className="absolute top-3 right-3 bg-teal-500">In Progress</Badge>
+              <Badge className="absolute top-3 right-3 bg-teal-500">
+                In Progress
+              </Badge>
             </div>
             <CardHeader>
-              <CardTitle className="text-base">Understanding Early Pregnancy Signs</CardTitle>
+              <CardTitle className="text-base">
+                Understanding Early Pregnancy Signs
+              </CardTitle>
               <CardDescription>Module 2 • 8 min read</CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
-              <Button 
+              <Button
                 onClick={() => navigate("/learn")}
                 className="w-full bg-teal-600 hover:bg-teal-700"
               >

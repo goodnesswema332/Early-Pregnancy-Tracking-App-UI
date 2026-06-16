@@ -22,7 +22,9 @@ export const protect = async (
     }
 
     if (!token) {
-      return res.status(401).json({ success: false, message: "Not authorized" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authorized" });
     }
 
     try {
@@ -31,13 +33,17 @@ export const protect = async (
       const user = await User.findById(decoded.id);
 
       if (!user) {
-        return res.status(401).json({ success: false, message: "User not found" });
+        return res
+          .status(401)
+          .json({ success: false, message: "User not found" });
       }
 
       req.user = user;
       next();
     } catch (err) {
-      return res.status(401).json({ success: false, message: "Invalid or expired token" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid or expired token" });
     }
   } catch (error) {
     next(error);
@@ -48,7 +54,9 @@ export const requireRole = (roles: string | string[]) => {
   const allowed = Array.isArray(roles) ? roles : [roles];
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return res.status(401).json({ success: false, message: "Not authorized" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authorized" });
     }
     if (!allowed.includes(req.user.role as string)) {
       return res.status(403).json({ success: false, message: "Forbidden" });

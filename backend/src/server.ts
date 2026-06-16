@@ -17,22 +17,31 @@ const start = async () => {
 
   const server = createServer(app);
   const io = new IOServer(server, {
-    cors: { origin: process.env.FRONTEND_URL || "http://localhost:8081", credentials: true },
+    cors: {
+      origin: process.env.FRONTEND_URL || "http://localhost:8081",
+      credentials: true,
+    },
   });
 
   io.use(async (socket, next) => {
     try {
       const token =
         socket.handshake.auth?.token ||
-        (socket.handshake.headers?.authorization?.toString().startsWith("Bearer")
+        (socket.handshake.headers?.authorization
+          ?.toString()
+          .startsWith("Bearer")
           ? socket.handshake.headers?.authorization.toString().split(" ")[1]
           : undefined);
       if (token) {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || "default-secret") as { id: string };
+        const decoded = jwt.verify(
+          token,
+          process.env.JWT_SECRET || "default-secret",
+        ) as { id: string };
         const user = await User.findById(decoded.id).select("+password");
         if (user) {
           (socket as any).data = { user };
-          if (["admin", "super", "agent"].includes(user.role)) socket.join("admins");
+          if (["admin", "super", "agent"].includes(user.role))
+            socket.join("admins");
         }
       }
     } catch (e) {
@@ -43,21 +52,38 @@ const start = async () => {
 
   io.on("connection", (socket) => {
     console.log("Socket connected", socket.id);
-    socket.on("joinSession", ({ sessionId }: { sessionId: string }) => socket.join(`session:${sessionId}`));
+    socket.on("joinSession", ({ sessionId }: { sessionId: string }) =>
+      socket.join(`session:${sessionId}`),
+    );
     socket.on("joinAdmins", () => socket.join("admins"));
 
     socket.on("sendMessage", async (payload: any, callback: any) => {
       try {
         const { sessionId, message, sender } = payload || {};
-        if (!sessionId || !message) return callback && callback({ success: false, error: "Invalid payload" });
+        if (!sessionId || !message)
+          return (
+            callback && callback({ success: false, error: "Invalid payload" })
+          );
 
         let msg: any;
         if (sender === "support" || sender === "admin") {
           const user = (socket as any).data?.user;
-          msg = await ChatMessage.create({ sessionId, message, sender: "support", userId: user?._id });
-          await ChatSession.findByIdAndUpdate(sessionId, { status: "active", assignedTo: user?._id });
+          msg = await ChatMessage.create({
+            sessionId,
+            message,
+            sender: "support",
+            userId: user?._id,
+          });
+          await ChatSession.findByIdAndUpdate(sessionId, {
+            status: "active",
+            assignedTo: user?._id,
+          });
         } else {
-          msg = await ChatMessage.create({ sessionId, message, sender: "user" });
+          msg = await ChatMessage.create({
+            sessionId,
+            message,
+            sender: "user",
+          });
           await ChatSession.findByIdAndUpdate(sessionId, { status: "waiting" });
         }
 
@@ -67,16 +93,25 @@ const start = async () => {
         return callback && callback({ success: true, data: msg });
       } catch (err: any) {
         console.error("Socket sendMessage error", err);
-        return callback && callback({ success: false, error: err.message || "Server error" });
+        return (
+          callback &&
+          callback({ success: false, error: err.message || "Server error" })
+        );
       }
     });
 
-    socket.on("disconnect", () => console.log("Socket disconnected", socket.id));
+    socket.on("disconnect", () =>
+      console.log("Socket disconnected", socket.id),
+    );
   });
 
   app.set("io", io);
 
-  server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT} - env=${process.env.NODE_ENV || "development"}`));
+  server.listen(PORT, () =>
+    console.log(
+      `🚀 Server running on port ${PORT} - env=${process.env.NODE_ENV || "development"}`,
+    ),
+  );
 };
 
 start().catch((err) => {

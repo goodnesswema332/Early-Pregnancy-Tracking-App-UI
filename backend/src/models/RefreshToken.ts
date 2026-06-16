@@ -18,4 +18,7 @@ const refreshTokenSchema = new Schema<IRefreshToken>({
   userAgent: { type: String },
 });
 
-export default mongoose.model<IRefreshToken>("RefreshToken", refreshTokenSchema);
+export default mongoose.model<IRefreshToken>(
+  "RefreshToken",
+  refreshTokenSchema,
+);

@@ -1,6 +1,18 @@
-import { ArrowLeft, MapPin, Phone, Clock, Navigation, Heart } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Phone,
+  Clock,
+  Navigation,
+  Heart,
+} from "lucide-react";
 import { useNavigate } from "react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { BottomNav } from "../components/BottomNav";
@@ -28,7 +40,11 @@ export function HealthServices() {
       phone: "0700 123 456",
       hours: "Mon-Fri: 8AM-5PM, Sat: 9AM-1PM",
       distance: "1.2 km",
-      services: ["Reproductive Health Counseling", "Health Education", "Confidential Services"]
+      services: [
+        "Reproductive Health Counseling",
+        "Health Education",
+        "Confidential Services",
+      ],
     },
     {
       id: "2",
@@ -38,7 +54,7 @@ export function HealthServices() {
       phone: "0722 234 567",
       hours: "24/7 Emergency Services",
       distance: "2.5 km",
-      services: ["Emergency Care", "Youth Clinic", "Counseling Services"]
+      services: ["Emergency Care", "Youth Clinic", "Counseling Services"],
     },
     {
       id: "3",
@@ -48,7 +64,7 @@ export function HealthServices() {
       phone: "0733 345 678",
       hours: "Mon-Sat: 8AM-6PM",
       distance: "1.8 km",
-      services: ["Reproductive Health", "Family Planning", "Youth Services"]
+      services: ["Reproductive Health", "Family Planning", "Youth Services"],
     },
     {
       id: "4",
@@ -58,26 +74,26 @@ export function HealthServices() {
       phone: "0711 456 789",
       hours: "Mon-Fri: 9AM-5PM",
       distance: "3.2 km",
-      services: ["Health Education", "Peer Counseling", "Confidential Support"]
-    }
+      services: ["Health Education", "Peer Counseling", "Confidential Support"],
+    },
   ];
 
   const helplines = [
     {
       name: "National Adolescent Helpline",
       number: "1190",
-      description: "Free 24/7 support for young people"
+      description: "Free 24/7 support for young people",
     },
     {
       name: "Gender Violence Helpline",
       number: "1195",
-      description: "Report abuse or get help"
+      description: "Report abuse or get help",
     },
     {
       name: "ChildLine Kenya",
       number: "116",
-      description: "Support for children and teens"
-    }
+      description: "Support for children and teens",
+    },
   ];
 
   return (
@@ -96,7 +112,9 @@ export function HealthServices() {
               <h1 className="text-xl">Health Services</h1>
             </div>
           </div>
-          <p className="text-purple-100 text-sm ml-14">Find youth-friendly support near you</p>
+          <p className="text-purple-100 text-sm ml-14">
+            Find youth-friendly support near you
+          </p>
         </div>
       </header>
 
@@ -108,10 +126,15 @@ export function HealthServices() {
               <Heart className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
               <div>
                 <p className="text-sm mb-2">
-                  <strong className="text-purple-900">Youth-Friendly Services</strong>
+                  <strong className="text-purple-900">
+                    Youth-Friendly Services
+                  </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  These facilities provide confidential, non-judgmental healthcare for young people. You can visit them for reproductive health information, counseling, and support without fear of stigma.
+                  These facilities provide confidential, non-judgmental
+                  healthcare for young people. You can visit them for
+                  reproductive health information, counseling, and support
+                  without fear of stigma.
                 </p>
               </div>
             </div>
@@ -119,9 +142,7 @@ export function HealthServices() {
         </Card>
 
         {/* Location Toggle */}
-        <Button
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 shadow-md"
-        >
+        <Button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 shadow-md">
           <Navigation className="w-5 h-5 mr-2" />
           Use My Location
         </Button>
@@ -130,13 +151,21 @@ export function HealthServices() {
         <div className="space-y-4">
           <h2 className="text-lg px-1">Nearby Facilities</h2>
 
-          {services.map(service => (
-            <Card key={service.id} className="shadow-md hover:shadow-lg transition-shadow">
+          {services.map((service) => (
+            <Card
+              key={service.id}
+              className="shadow-md hover:shadow-lg transition-shadow"
+            >
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <div className="flex-1">
-                    <CardTitle className="text-base mb-1">{service.name}</CardTitle>
-                    <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                    <CardTitle className="text-base mb-1">
+                      {service.name}
+                    </CardTitle>
+                    <Badge
+                      variant="secondary"
+                      className="bg-purple-100 text-purple-700"
+                    >
                       {service.type}
                     </Badge>
                   </div>
@@ -152,7 +181,10 @@ export function HealthServices() {
                 </div>
                 <div className="flex items-start gap-2 text-sm">
                   <Phone className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" />
-                  <a href={`tel:${service.phone}`} className="text-purple-600 hover:underline">
+                  <a
+                    href={`tel:${service.phone}`}
+                    className="text-purple-600 hover:underline"
+                  >
                     {service.phone}
                   </a>
                 </div>
@@ -162,7 +194,9 @@ export function HealthServices() {
                 </div>
 
                 <div className="pt-2 border-t">
-                  <p className="text-xs text-gray-600 mb-2">Services offered:</p>
+                  <p className="text-xs text-gray-600 mb-2">
+                    Services offered:
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {service.services.map((s, idx) => (
                       <Badge key={idx} variant="outline" className="text-xs">
@@ -193,14 +227,23 @@ export function HealthServices() {
 
           <Card className="shadow-md bg-gradient-to-br from-red-50 to-white border-red-200">
             <CardHeader>
-              <CardTitle className="text-base text-red-900">Need Immediate Help?</CardTitle>
+              <CardTitle className="text-base text-red-900">
+                Need Immediate Help?
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {helplines.map((helpline, idx) => (
-                <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
+                <div
+                  key={idx}
+                  className="flex items-center justify-between py-2 border-b last:border-0"
+                >
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{helpline.name}</p>
-                    <p className="text-xs text-gray-600">{helpline.description}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {helpline.name}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {helpline.description}
+                    </p>
                   </div>
                   <a
                     href={`tel:${helpline.number}`}
@@ -218,7 +261,9 @@ export function HealthServices() {
         <Card className="shadow-sm bg-gray-50">
           <CardContent className="pt-4 pb-4">
             <p className="text-xs text-gray-600 text-center leading-relaxed">
-              All services listed are youth-friendly and respect your privacy. You have the right to confidential healthcare. Don't hesitate to seek help when you need it.
+              All services listed are youth-friendly and respect your privacy.
+              You have the right to confidential healthcare. Don't hesitate to
+              seek help when you need it.
             </p>
           </CardContent>
         </Card>

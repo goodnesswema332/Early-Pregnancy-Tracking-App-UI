@@ -1,7 +1,24 @@
-import { ArrowLeft, Star, Plus, Target, GraduationCap, Briefcase, Heart, Trophy, Calendar, CheckCircle2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Star,
+  Plus,
+  Target,
+  GraduationCap,
+  Briefcase,
+  Heart,
+  Trophy,
+  Calendar,
+  CheckCircle2,
+} from "lucide-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
@@ -28,7 +45,7 @@ export function Goals() {
       deadline: "2028",
       progress: 60,
       completed: false,
-      icon: GraduationCap
+      icon: GraduationCap,
     },
     {
       id: "2",
@@ -37,7 +54,7 @@ export function Goals() {
       deadline: "2029",
       progress: 20,
       completed: false,
-      icon: Briefcase
+      icon: Briefcase,
     },
     {
       id: "3",
@@ -46,7 +63,7 @@ export function Goals() {
       deadline: "Jun 2026",
       progress: 42,
       completed: false,
-      icon: Target
+      icon: Target,
     },
     {
       id: "4",
@@ -55,15 +72,15 @@ export function Goals() {
       deadline: "May 2026",
       progress: 100,
       completed: true,
-      icon: Heart
-    }
+      icon: Heart,
+    },
   ]);
 
   const categoryColors: Record<string, { bg: string; text: string }> = {
     Education: { bg: "bg-teal-100", text: "text-teal-700" },
     Career: { bg: "bg-purple-100", text: "text-purple-700" },
     Learning: { bg: "bg-blue-100", text: "text-blue-700" },
-    Personal: { bg: "bg-coral-100", text: "text-coral-700" }
+    Personal: { bg: "bg-coral-100", text: "text-coral-700" },
   };
 
   return (
@@ -82,7 +99,9 @@ export function Goals() {
               <h1 className="text-xl">My Future Goals</h1>
             </div>
           </div>
-          <p className="text-amber-100 text-sm ml-14">Plan and track your journey to success</p>
+          <p className="text-amber-100 text-sm ml-14">
+            Plan and track your journey to success
+          </p>
         </div>
       </header>
 
@@ -94,10 +113,15 @@ export function Goals() {
               <Trophy className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1 fill-amber-600" />
               <div>
                 <p className="text-sm mb-2">
-                  <strong className="text-amber-900">Why Goal Setting Matters</strong>
+                  <strong className="text-amber-900">
+                    Why Goal Setting Matters
+                  </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  Having clear goals helps you make better decisions today for a brighter tomorrow. Each goal you achieve builds confidence and brings you closer to your dreams. Your future is worth protecting!
+                  Having clear goals helps you make better decisions today for a
+                  brighter tomorrow. Each goal you achieve builds confidence and
+                  brings you closer to your dreams. Your future is worth
+                  protecting!
                 </p>
               </div>
             </div>
@@ -114,22 +138,24 @@ export function Goals() {
           </Card>
           <Card className="shadow-md text-center">
             <CardContent className="pt-6">
-              <div className="text-2xl mb-1">{goals.filter(g => g.completed).length}</div>
+              <div className="text-2xl mb-1">
+                {goals.filter((g) => g.completed).length}
+              </div>
               <div className="text-xs text-gray-600">Completed</div>
             </CardContent>
           </Card>
           <Card className="shadow-md text-center">
             <CardContent className="pt-6">
-              <div className="text-2xl mb-1">{goals.filter(g => !g.completed).length}</div>
+              <div className="text-2xl mb-1">
+                {goals.filter((g) => !g.completed).length}
+              </div>
               <div className="text-xs text-gray-600">In Progress</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Add Goal Button */}
-        <Button
-          className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-md"
-        >
+        <Button className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-md">
           <Plus className="w-5 h-5 mr-2" />
           Add New Goal
         </Button>
@@ -139,86 +165,109 @@ export function Goals() {
           <h2 className="text-lg px-1">Your Goals</h2>
 
           {/* Active Goals */}
-          {goals.filter(g => !g.completed).map(goal => {
-            const Icon = goal.icon;
-            const colors = categoryColors[goal.category];
+          {goals
+            .filter((g) => !g.completed)
+            .map((goal) => {
+              const Icon = goal.icon;
+              const colors = categoryColors[goal.category];
 
-            return (
-              <Card key={goal.id} className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start gap-3">
-                    <div className={`w-12 h-12 ${colors.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                      <Icon className={`w-6 h-6 ${colors.text}`} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <CardTitle className="text-base mb-2 leading-snug">
-                        {goal.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="secondary" className={`${colors.bg} ${colors.text}`}>
-                          {goal.category}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Calendar className="w-3 h-3" />
-                          {goal.deadline}
-                        </div>
+              return (
+                <Card
+                  key={goal.id}
+                  className="shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`w-12 h-12 ${colors.bg} rounded-xl flex items-center justify-center flex-shrink-0`}
+                      >
+                        <Icon className={`w-6 h-6 ${colors.text}`} />
                       </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Progress</span>
-                    <span className={`font-medium ${colors.text}`}>{goal.progress}%</span>
-                  </div>
-                  <Progress value={goal.progress} className={`h-2 ${colors.bg}`} />
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Update Progress
-                    </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Edit
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-
-          {/* Completed Goals */}
-          {goals.filter(g => g.completed).length > 0 && (
-            <>
-              <h3 className="text-base px-1 text-gray-600 pt-4">Completed</h3>
-              {goals.filter(g => g.completed).map(goal => {
-                const Icon = goal.icon;
-                const colors = categoryColors[goal.category];
-
-                return (
-                  <Card key={goal.id} className="shadow-sm bg-gray-50 border-gray-200">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start gap-3">
-                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <CheckCircle2 className="w-6 h-6 text-green-600 fill-green-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <CardTitle className="text-base mb-2 leading-snug text-gray-600">
-                            {goal.title}
-                          </CardTitle>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <Badge variant="secondary" className="bg-green-100 text-green-700">
-                              Completed
-                            </Badge>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                              <Calendar className="w-3 h-3" />
-                              {goal.deadline}
-                            </div>
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="text-base mb-2 leading-snug">
+                          {goal.title}
+                        </CardTitle>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Badge
+                            variant="secondary"
+                            className={`${colors.bg} ${colors.text}`}
+                          >
+                            {goal.category}
+                          </Badge>
+                          <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <Calendar className="w-3 h-3" />
+                            {goal.deadline}
                           </div>
                         </div>
                       </div>
-                    </CardHeader>
-                  </Card>
-                );
-              })}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-gray-600">Progress</span>
+                      <span className={`font-medium ${colors.text}`}>
+                        {goal.progress}%
+                      </span>
+                    </div>
+                    <Progress
+                      value={goal.progress}
+                      className={`h-2 ${colors.bg}`}
+                    />
+                    <div className="flex gap-2 pt-2">
+                      <Button variant="outline" size="sm" className="flex-1">
+                        Update Progress
+                      </Button>
+                      <Button variant="outline" size="sm" className="flex-1">
+                        Edit
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+
+          {/* Completed Goals */}
+          {goals.filter((g) => g.completed).length > 0 && (
+            <>
+              <h3 className="text-base px-1 text-gray-600 pt-4">Completed</h3>
+              {goals
+                .filter((g) => g.completed)
+                .map((goal) => {
+                  const Icon = goal.icon;
+                  const colors = categoryColors[goal.category];
+
+                  return (
+                    <Card
+                      key={goal.id}
+                      className="shadow-sm bg-gray-50 border-gray-200"
+                    >
+                      <CardHeader className="pb-3">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <CheckCircle2 className="w-6 h-6 text-green-600 fill-green-600" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <CardTitle className="text-base mb-2 leading-snug text-gray-600">
+                              {goal.title}
+                            </CardTitle>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <Badge
+                                variant="secondary"
+                                className="bg-green-100 text-green-700"
+                              >
+                                Completed
+                              </Badge>
+                              <div className="flex items-center gap-1 text-xs text-gray-500">
+                                <Calendar className="w-3 h-3" />
+                                {goal.deadline}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  );
+                })}
             </>
           )}
         </div>
