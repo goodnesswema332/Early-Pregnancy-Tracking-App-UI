@@ -14,7 +14,6 @@ import {
 import { useNavigate } from "react-router";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,

@@ -27,7 +27,7 @@ export function MythBusting() {
     {
       id: "1",
       category: "Pregnancy Facts",
-      myth: "You can't get pregnant the first time",
+      myth: "You can&apos;t get pregnant the first time",
       truth:
         "FALSE - You can get pregnant any time you engage in sexual activity, including the first time.",
       explanation:
@@ -36,7 +36,7 @@ export function MythBusting() {
     {
       id: "2",
       category: "Pregnancy Facts",
-      myth: "You can't get pregnant during your period",
+      myth: "You can&apos;t get pregnant during your period",
       truth:
         "FALSE - While less likely, pregnancy can still occur during menstruation.",
       explanation:
@@ -72,7 +72,7 @@ export function MythBusting() {
     {
       id: "6",
       category: "Pregnancy Facts",
-      myth: "You can't get pregnant if you don't reach orgasm",
+      myth: "You can&apos;t get pregnant if you don't reach orgasm",
       truth: "FALSE - Pregnancy has nothing to do with orgasm or pleasure.",
       explanation:
         "Pregnancy occurs when sperm meets egg, regardless of anyone's feelings or physical sensations. This myth is completely false and dangerously misleading.",
@@ -97,7 +97,7 @@ export function MythBusting() {
     {
       id: "9",
       category: "Health",
-      myth: "You can't get pregnant while breastfeeding",
+      myth: "You can&apos;t get pregnant while breastfeeding",
       truth:
         "FALSE - Breastfeeding is not a reliable form of pregnancy prevention.",
       explanation:
@@ -152,7 +152,7 @@ export function MythBusting() {
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
                   There are many dangerous myths about reproductive health
-                  spread through friends, social media, and the internet. Let's
+                  spread through friends, social media, and the internet. Let&apos;s
                   separate fact from fiction to help you make informed
                   decisions.
                 </p>
@@ -257,7 +257,7 @@ export function MythBusting() {
         <Card className="shadow-md bg-gradient-to-br from-teal-50 to-white border-teal-200">
           <CardContent className="pt-6 text-center">
             <p className="text-sm mb-4">
-              Have you heard a myth that's not listed here?
+              Have you heard a myth that&apos;s not listed here?
             </p>
             <Button
               onClick={() => navigate("/chat")}

@@ -52,14 +52,14 @@ export function Dashboard() {
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-coral-500" />
               <CardTitle className="text-lg text-coral-700">
-                Today's Insight
+                Today&apos;s Insight
               </CardTitle>
             </div>
             <CardDescription className="text-base text-gray-700">
-              "Understanding your body is the first step to making informed
-              choices. Knowledge empowers you to take control of your health and
-              future."
-            </CardDescription>
+                &quot;Understanding your body is the first step to making informed
+                choices. Knowledge empowers you to take control of your health and
+                future.&quot;
+              </CardDescription>
           </CardHeader>
         </Card>
 
@@ -191,7 +191,7 @@ export function Dashboard() {
                   </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  Everything you do here is private and confidential. We're here
+                  Everything you do here is private and confidential. We&apos;re here
                   to support you with accurate information to make informed
                   decisions about your future.
                 </p>

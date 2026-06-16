@@ -1,4 +1,4 @@
-import { ArrowLeft, Play, Clock, Eye } from "lucide-react";
+import { ArrowLeft, Play, Eye } from "lucide-react";
 import { useNavigate } from "react-router";
 import {
   Card,

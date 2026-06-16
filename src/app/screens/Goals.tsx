@@ -15,7 +15,6 @@ import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
@@ -37,7 +36,7 @@ interface Goal {
 export function Goals() {
   const navigate = useNavigate();
 
-  const [goals, setGoals] = useState<Goal[]>([
+  const [goals] = useState<Goal[]>([
     {
       id: "1",
       title: "Complete high school with good grades",
@@ -118,11 +117,11 @@ export function Goals() {
                   </strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  Having clear goals helps you make better decisions today for a
-                  brighter tomorrow. Each goal you achieve builds confidence and
-                  brings you closer to your dreams. Your future is worth
-                  protecting!
-                </p>
+                        Having clear goals helps you make better decisions today for a
+                        brighter tomorrow. Each goal you achieve builds confidence and
+                        brings you closer to your dreams. Your future is worth
+                        protecting!
+                      </p>
               </div>
             </div>
           </CardContent>
@@ -233,9 +232,7 @@ export function Goals() {
               {goals
                 .filter((g) => g.completed)
                 .map((goal) => {
-                  const Icon = goal.icon;
-                  const colors = categoryColors[goal.category];
-
+                  
                   return (
                     <Card
                       key={goal.id}
@@ -296,7 +293,7 @@ export function Goals() {
             <div className="flex items-start gap-2">
               <div className="w-2 h-2 bg-teal-500 rounded-full mt-2 flex-shrink-0" />
               <p className="text-sm text-gray-700">
-                You deserve a bright future - don't let anyone compromise it
+                You deserve a bright future - don&apos;t let anyone compromise it
               </p>
             </div>
           </CardContent>

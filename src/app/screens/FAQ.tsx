@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
@@ -81,7 +80,7 @@ export function FAQ() {
       category: "Decision Making",
       question: "How do I handle peer pressure?",
       answer:
-        "Remember your goals and values. Practice saying 'no' confidently. Surround yourself with friends who respect your choices. It's okay to walk away from situations that make you uncomfortable. Your future is more important than fitting in.",
+         "Remember your goals and values. Practice saying &apos;no&apos; confidently. Surround yourself with friends who respect your choices. It&apos;s okay to walk away from situations that make you uncomfortable. Your future is more important than fitting in.",
     },
     {
       id: "8",
@@ -141,9 +140,9 @@ export function FAQ() {
                   <strong className="text-blue-900">Have questions?</strong>
                 </p>
                 <p className="text-xs text-gray-700 leading-relaxed">
-                  We've compiled answers to the most common questions about
+                  We&apos;ve compiled answers to the most common questions about
                   reproductive health, education, and making informed decisions.
-                  If you don't find what you're looking for, use our anonymous
+                  If you don&apos;t find what you&apos;re looking for, use our anonymous
                   chat feature.
                 </p>
               </div>
@@ -204,7 +203,7 @@ export function FAQ() {
         <Card className="shadow-md bg-gradient-to-br from-teal-50 to-white border-teal-200">
           <CardContent className="pt-6">
             <p className="text-sm text-center mb-4">
-              Didn't find what you were looking for?
+              Didn&apos;t find what you were looking for?
             </p>
             <button
               onClick={() => navigate("/chat")}

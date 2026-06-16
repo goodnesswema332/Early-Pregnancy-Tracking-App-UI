@@ -44,7 +44,7 @@ const start = async () => {
             socket.join("admins");
         }
       }
-    } catch {
+    } catch (e) {
       // ignore
     }
     next();

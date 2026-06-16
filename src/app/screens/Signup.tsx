@@ -141,7 +141,7 @@ export function Signup() {
               {/* Benefits */}
               <div className="bg-teal-50 rounded-lg p-4 space-y-2">
                 <p className="text-sm text-teal-900 mb-2">
-                  You'll get access to:
+                  You&apos;ll get access to:
                 </p>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-sm text-teal-800">

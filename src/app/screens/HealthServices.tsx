@@ -262,8 +262,8 @@ export function HealthServices() {
           <CardContent className="pt-4 pb-4">
             <p className="text-xs text-gray-600 text-center leading-relaxed">
               All services listed are youth-friendly and respect your privacy.
-              You have the right to confidential healthcare. Don't hesitate to
-              seek help when you need it.
+                  You have the right to confidential healthcare. Don&apos;t hesitate to
+                  seek help when you need it.
             </p>
           </CardContent>
         </Card>

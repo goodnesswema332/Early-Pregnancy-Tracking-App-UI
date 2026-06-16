@@ -81,7 +81,7 @@ export function AnonymousChat() {
             </div>
           </div>
           <p className="text-blue-100 text-sm ml-14">
-            Private & confidential support
+            Private &amp; confidential support
           </p>
         </div>
       </header>
@@ -95,7 +95,7 @@ export function AnonymousChat() {
               <div>
                 <p className="text-xs text-gray-700 leading-relaxed">
                   <strong className="text-blue-900">100% Anonymous:</strong> We
-                  don't collect personal information. Your conversations are
+                    don&apos;t collect personal information. Your conversations are
                   private and confidential.
                 </p>
               </div>
