@@ -1,0 +1,165 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint_and_typecheck:
+    name: Lint & Typecheck — ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: frontend
+            path: mobile
+          - service: backend
+            path: backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Enable Corepack & pnpm
+        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+
+      - name: Install dependencies (service)
+        working-directory: ${{ matrix.path }}
+        run: pnpm install --frozen-lockfile --silent
+
+      - name: Prettier — format check
+        working-directory: ${{ matrix.path }}
+        run: pnpm exec --silent prettier --ignore-path .gitignore --check .
+
+      - name: ESLint
+        working-directory: ${{ matrix.path }}
+        run: pnpm exec --silent eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0
+
+      - name: TypeScript — typecheck
+        working-directory: ${{ matrix.path }}
+        run: pnpm exec --silent tsc --noEmit
+
+  test:
+    name: Tests — ${{ matrix.service }}
+    needs: lint_and_typecheck
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: frontend
+            path: mobile
+          - service: backend
+            path: backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Enable Corepack & pnpm
+        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+
+      - name: Install dependencies (service)
+        working-directory: ${{ matrix.path }}
+        run: pnpm install --frozen-lockfile --silent
+
+      - name: Run tests with coverage and enforce thresholds
+        working-directory: ${{ matrix.path }}
+        env:
+          NODE_ENV: test
+        run: |
+          export BACKEND_DATABASE_URL='${{ secrets.BACKEND_DATABASE_URL }}'
+          export TEST_API_KEY='${{ secrets.TEST_API_KEY }}'
+          export EXPO_TOKEN='${{ secrets.EXPO_TOKEN }}'
+          pnpm exec --silent jest --ci --runInBand --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.service }}
+          path: ${{ matrix.path }}/coverage || coverage
+
+  security_scan:
+    name: Security & SAST
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code (full fetch)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Enable Corepack & pnpm
+        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+
+      - name: Install all workspace dependencies
+        run: pnpm -w install --frozen-lockfile --silent
+
+      - name: Dependency audit (pnpm) — fail on high/critical
+        run: pnpm -w audit --audit-level=high
+
+      - name: Snyk vulnerability scan (optional)
+        run: |
+          SNYK_TOKEN='${{ secrets.SNYK_TOKEN }}'
+          if [ -z "${SNYK_TOKEN}" ]; then
+            echo "SNYK_TOKEN not set — skipping Snyk scan"
+            exit 0
+          fi
+          pnpm dlx snyk test --severity-threshold=high --all-projects --json
+
+      - name: Detect secrets with Gitleaks
+        uses: zricethezav/gitleaks-action@v1.3.0
+        with:
+          args: detect --source . --report-format json --redact
+
+      - name: Initialize CodeQL database for JS/TS
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Autobuild for CodeQL
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v2
