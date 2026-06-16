@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IGoal extends Document {
   userId: mongoose.Types.ObjectId;
@@ -11,38 +11,41 @@ export interface IGoal extends Document {
   updatedAt: Date;
 }
 
-const goalSchema = new Schema<IGoal>({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const goalSchema = new Schema<IGoal>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    title: {
+      type: String,
+      required: [true, "Please provide a goal title"],
+      trim: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ["Education", "Career", "Learning", "Personal", "Health"],
+    },
+    deadline: {
+      type: String,
+      required: true,
+    },
+    progress: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
-  title: {
-    type: String,
-    required: [true, 'Please provide a goal title'],
-    trim: true
+  {
+    timestamps: true,
   },
-  category: {
-    type: String,
-    required: true,
-    enum: ['Education', 'Career', 'Learning', 'Personal', 'Health']
-  },
-  deadline: {
-    type: String,
-    required: true
-  },
-  progress: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 100
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  }
-}, {
-  timestamps: true
-});
+);
 
-export default mongoose.model<IGoal>('Goal', goalSchema);
+export default mongoose.model<IGoal>("Goal", goalSchema);

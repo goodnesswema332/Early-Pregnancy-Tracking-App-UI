@@ -71,6 +71,14 @@ jobs:
             pnpm install --silent
           fi
 
+      - name: Mobile: ESLint fix, Prettier write, ESLint check (npx)
+        if: ${{ matrix.path == 'mobile' }}
+        working-directory: ${{ matrix.path }}
+        run: |
+          npx --yes eslint "src/**/*.{ts,tsx,js,jsx}" --ext .ts,.tsx --fix
+          npx --yes prettier --write "src/**/*.{ts,tsx,js,jsx,json,css,md}"
+          npx --yes eslint "src/**/*.{ts,tsx,js,jsx}" --ext .ts,.tsx --max-warnings=0
+
       - name: Prettier — format check
         working-directory: ${{ matrix.path }}
         run: pnpm --silent exec prettier --ignore-path .gitignore --check .

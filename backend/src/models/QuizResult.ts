@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IQuizResult extends Document {
   userId: mongoose.Types.ObjectId;
@@ -17,34 +17,36 @@ export interface IQuizResult extends Document {
 const quizResultSchema = new Schema<IQuizResult>({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   quizId: {
     type: String,
-    required: true
+    required: true,
   },
   quizTitle: {
     type: String,
-    required: true
+    required: true,
   },
   score: {
     type: Number,
-    required: true
+    required: true,
   },
   totalQuestions: {
     type: Number,
-    required: true
+    required: true,
   },
-  answers: [{
-    questionId: String,
-    selectedAnswer: String,
-    correct: Boolean
-  }],
+  answers: [
+    {
+      questionId: String,
+      selectedAnswer: String,
+      correct: Boolean,
+    },
+  ],
   completedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export default mongoose.model<IQuizResult>('QuizResult', quizResultSchema);
+export default mongoose.model<IQuizResult>("QuizResult", quizResultSchema);

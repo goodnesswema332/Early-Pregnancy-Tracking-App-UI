@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}' --ext .ts,.tsx,.js,.jsx"
   },
-  "keywords": ["education", "health", "teen-pregnancy-prevention"],
+  "keywords": [
+    "education",
+    "health",
+    "teen-pregnancy-prevention"
+  ],
   "author": "Mercy Wanjiku, Mary Muthoni",
   "license": "MIT",
   "dependencies": {

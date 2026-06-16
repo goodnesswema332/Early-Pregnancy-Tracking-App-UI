@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import User from '../models/User';
-import { generateToken } from '../utils/generateToken';
+import { Request, Response } from "express";
+import User from "../models/User";
+import { generateToken } from "../utils/generateToken";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -11,15 +11,21 @@ export const register = async (req: Request, res: Response) => {
     if (userExists) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists'
+        message: "User already exists",
       });
     }
 
     // If role is provided and not 'user', require adminSecret
-    let createRole = 'user';
-    if (role && role !== 'user') {
-      if (!process.env.ADMIN_CREATE_SECRET || adminSecret !== process.env.ADMIN_CREATE_SECRET) {
-        return res.status(403).json({ success: false, message: 'Not authorized to create admin role' });
+    let createRole = "user";
+    if (role && role !== "user") {
+      if (
+        !process.env.ADMIN_CREATE_SECRET ||
+        adminSecret !== process.env.ADMIN_CREATE_SECRET
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "Not authorized to create admin role",
+        });
       }
       createRole = role;
     }
@@ -41,14 +47,14 @@ export const register = async (req: Request, res: Response) => {
           email: user.email,
           progress: user.progress,
           role: user.role,
-          token: generateToken(user._id.toString())
-        }
+          token: generateToken(user._id.toString()),
+        },
       });
     }
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -58,12 +64,12 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Check for user
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: "Invalid credentials",
       });
     }
 
@@ -73,7 +79,7 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: "Invalid credentials",
       });
     }
 
@@ -89,13 +95,13 @@ export const login = async (req: Request, res: Response) => {
         email: user.email,
         progress: user.progress,
         role: user.role,
-        token: generateToken(user._id.toString())
-      }
+        token: generateToken(user._id.toString()),
+      },
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -106,12 +112,12 @@ export const getMe = async (req: any, res: Response) => {
 
     res.json({
       success: true,
-      data: user
+      data: user,
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -119,25 +125,55 @@ export const getMe = async (req: any, res: Response) => {
 // Create a seed admin via API (requires ADMIN_CREATE_SECRET)
 export const seedAdmin = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, role = 'super', secret } = req.body as any;
+    const { name, email, password, role = "super", secret } = req.body as any;
 
-    if (!process.env.ADMIN_CREATE_SECRET || secret !== process.env.ADMIN_CREATE_SECRET) {
-      return res.status(403).json({ success: false, message: 'Not authorized to seed admin' });
+    if (
+      !process.env.ADMIN_CREATE_SECRET ||
+      secret !== process.env.ADMIN_CREATE_SECRET
+    ) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Not authorized to seed admin" });
     }
 
     if (!email || !password) {
-      return res.status(400).json({ success: false, message: 'Email and password are required' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required" });
     }
 
     const exists = await User.findOne({ email });
     if (exists) {
       // if exists, return existing user (avoid leaking password)
-      return res.json({ success: true, data: { _id: exists._id, email: exists.email, role: exists.role, name: exists.name, token: generateToken(exists._id.toString()) } });
+      return res.json({
+        success: true,
+        data: {
+          _id: exists._id,
+          email: exists.email,
+          role: exists.role,
+          name: exists.name,
+          token: generateToken(exists._id.toString()),
+        },
+      });
     }
 
-    const user = await User.create({ name: name || 'Seed Admin', email, password, role });
+    const user = await User.create({
+      name: name || "Seed Admin",
+      email,
+      password,
+      role,
+    });
 
-    return res.status(201).json({ success: true, data: { _id: user._id, name: user.name, email: user.email, role: user.role, token: generateToken(user._id.toString()) } });
+    return res.status(201).json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id.toString()),
+      },
+    });
   } catch (error: any) {
     return res.status(500).json({ success: false, message: error.message });
   }

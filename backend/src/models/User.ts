@@ -1,11 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose, { Document, Schema } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: 'user' | 'admin' | 'super';
+  role: "user" | "admin" | "super";
   createdAt: Date;
   progress: {
     modulesCompleted: number;
@@ -20,58 +20,60 @@ export interface IUser extends Document {
 const userSchema = new Schema<IUser>({
   name: {
     type: String,
-    required: [true, 'Please provide a name'],
-    trim: true
+    required: [true, "Please provide a name"],
+    trim: true,
   },
   email: {
     type: String,
-    required: [true, 'Please provide an email'],
+    required: [true, "Please provide an email"],
     unique: true,
     lowercase: true,
     trim: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email']
+    match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"],
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: [true, "Please provide a password"],
     minlength: 8,
-    select: false
+    select: false,
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'super'],
-    default: 'user'
+    enum: ["user", "admin", "super"],
+    default: "user",
   },
   progress: {
     modulesCompleted: {
       type: Number,
-      default: 0
+      default: 0,
     },
     totalModules: {
       type: Number,
-      default: 12
+      default: 12,
     },
-    badgesEarned: [{
-      type: String
-    }],
+    badgesEarned: [
+      {
+        type: String,
+      },
+    ],
     streak: {
       type: Number,
-      default: 0
+      default: 0,
     },
     lastActive: {
       type: Date,
-      default: Date.now
-    }
-  }
+      default: Date.now,
+    },
+  },
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
@@ -79,8 +81,10 @@ userSchema.pre('save', async function(next) {
 });
 
 // Compare password method
-userSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string,
+): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model<IUser>('User', userSchema);
+export default mongoose.model<IUser>("User", userSchema);
