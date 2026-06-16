@@ -26,16 +26,19 @@ This application addresses the significant issue of teenage pregnancy in Kenya, 
 The project is structured as a full-stack application:
 
 ### Backend (Node.js/Express + TypeScript)
+
 - **Location:** `backend/`
 - **Technology:** Node.js, Express, MongoDB, TypeScript
 - **Features:** REST API, JWT authentication, user progress tracking
 
 ### Mobile App (Expo/React Native)
+
 - **Location:** `mobile/`
 - **Technology:** Expo, React Native, TypeScript
 - **Features:** Cross-platform iOS/Android app, offline support
 
 ### Legacy Web App (React)
+
 - **Location:** `src/`
 - **Status:** Prototype (being replaced by Expo mobile app)
 
@@ -51,12 +54,14 @@ The project is structured as a full-stack application:
 ### Quick Start
 
 1. **Clone the repository:**
+
 ```bash
 git clone <repository-url>
 cd code
 ```
 
 2. **Set up the backend:**
+
 ```bash
 cd backend
 npm install
@@ -66,6 +71,7 @@ npm run dev
 ```
 
 3. **Set up the mobile app:**
+
 ```bash
 cd mobile
 npm install
@@ -73,12 +79,14 @@ npm start
 ```
 
 4. **Access the application:**
+
 - Backend API: http://localhost:5000
 - Mobile app: Scan QR code with Expo Go
 
 ## Features
 
 ### Core Features
+
 - ✅ User Authentication (Register/Login)
 - ✅ Dashboard with Progress Tracking
 - ✅ Educational Content Library
@@ -93,6 +101,7 @@ npm start
 - ✅ User Profile Management
 
 ### Privacy & Security
+
 - End-to-end encryption for chat messages
 - Anonymous user IDs
 - No personally identifiable information (PII) collection
@@ -132,45 +141,54 @@ npm start
 ## API Documentation
 
 ### Authentication Endpoints
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 - `GET /api/auth/me` - Get current user (protected)
 
 ### User Endpoints
+
 - `GET /api/users/progress` - Get user progress (protected)
 - `PUT /api/users/progress` - Update user progress (protected)
 
 ### Goals Endpoints
+
 - `GET /api/goals` - Get all user goals (protected)
 - `POST /api/goals` - Create new goal (protected)
 - `PUT /api/goals/:id` - Update goal (protected)
 - `DELETE /api/goals/:id` - Delete goal (protected)
 
 ### Quiz Endpoints
+
 - `GET /api/quiz/results` - Get quiz results (protected)
 - `POST /api/quiz/submit` - Submit quiz result (protected)
 
 ### Chat Endpoints
+
 - `GET /api/chat/:sessionId` - Get chat messages (protected)
 - `POST /api/chat` - Send message (protected)
 
 ### Education Endpoints
+
 - `GET /api/education/faq` - Get FAQs
 - `GET /api/education/myths` - Get myths
 - `GET /api/education/videos` - Get videos
 
 ### Health Services Endpoints
+
 - `GET /api/health-services` - Get health services and helplines
 
 ## Development
 
 ### Running Backend in Development
+
 ```bash
 cd backend
 npm run dev
 ```
 
 ### Running Mobile App
+
 ```bash
 cd mobile
 npm start
@@ -179,6 +197,7 @@ npm start
 ### Building for Production
 
 #### Backend
+
 ```bash
 cd backend
 npm run build
@@ -186,6 +205,7 @@ npm start
 ```
 
 #### Mobile App
+
 ```bash
 cd mobile
 eas build --platform ios
@@ -195,6 +215,7 @@ eas build --platform android
 ## Design System
 
 ### Colors
+
 - **Primary (Teal):** #14B8A6 - Supportive, calming
 - **Secondary (Coral):** #F43F5E - Friendly, approachable
 - **Success:** #10B981
@@ -203,6 +224,7 @@ eas build --platform android
 - **Error:** #EF4444
 
 ### Typography
+
 - **Primary Font:** System default (San Francisco/Roboto)
 - **Heading Scale:** 28px, 24px, 20px, 18px, 16px
 - **Body:** 16px, 14px, 12px

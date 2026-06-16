@@ -55,8 +55,9 @@ If you need to inspect UI code, look under the mobile/web `src/screens` folders 
    - For privacy-sensitive issues, follow your organization's data-retention and incident procedures.
 
 10. Content Publishing Workflow (recommended)
-   - Draft → Review (peer/admin) → Publish → Monitor feedback and metrics.
-   - Keep a small changelog or notes field on content to track edits and publish dates.
+
+- Draft → Review (peer/admin) → Publish → Monitor feedback and metrics.
+- Keep a small changelog or notes field on content to track edits and publish dates.
 
 ## Admin Guide — Chat & Responding to Users
 
@@ -86,6 +87,7 @@ If you need to inspect UI code, look under the mobile/web `src/screens` folders 
 - Health Services & Resource Links: Users can call or email listed partners directly from resource cards.
 
 Recommended message flow for users:
+
 1. Open Chat (or Help) → 2. Describe issue briefly → 3. Attach any relevant files/screenshots → 4. Submit and wait for admin reply.
 
 Note: Encourage users to create an account if they want persistent chat history and personalized follow-up.

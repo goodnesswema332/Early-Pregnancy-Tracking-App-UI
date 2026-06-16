@@ -68,6 +68,7 @@ nano .env  # or use any text editor
 ```
 
 **Configure `.env` file:**
+
 ```env
 PORT=5000
 NODE_ENV=development
@@ -77,6 +78,7 @@ FRONTEND_URL=http://localhost:8081
 ```
 
 **Generate a secure JWT secret:**
+
 ```bash
 # On macOS/Linux
 openssl rand -base64 32
@@ -86,6 +88,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
 **Start the backend server:**
+
 ```bash
 # Development mode (auto-restart on changes)
 npm run dev
@@ -96,6 +99,7 @@ npm start
 ```
 
 **Verify backend is running:**
+
 ```bash
 curl http://localhost:5000/api/health
 # Should return: {"status":"ok","message":"Early Pregnancy Prevention API is running",...}
@@ -115,11 +119,13 @@ npm install
 ```
 
 **Start the mobile app:**
+
 ```bash
 npm start
 ```
 
 This will:
+
 1. Start Metro bundler
 2. Open Expo Developer Tools in browser
 3. Display QR code
@@ -133,15 +139,17 @@ This will:
 3. App will load on your device
 
 **Important for Physical Device:**
+
 - Your phone and computer must be on the same WiFi network
 - Update `API_URL` in `mobile/src/services/api.ts` to your computer's local IP:
   ```typescript
   const API_URL = __DEV__
-    ? 'http://192.168.1.X:5000/api'  // Replace X with your IP
-    : 'https://your-production-api.com/api';
+    ? "http://192.168.1.X:5000/api" // Replace X with your IP
+    : "https://your-production-api.com/api";
   ```
 
 **Find your local IP:**
+
 ```bash
 # macOS/Linux
 ifconfig | grep "inet "
@@ -176,6 +184,7 @@ ipconfig
 ### 7. Verify Everything Works
 
 **Check Backend:**
+
 ```bash
 # In backend directory
 npm run dev
@@ -186,6 +195,7 @@ npm run dev
 ```
 
 **Check Mobile App:**
+
 - Can create account
 - Can login
 - Dashboard loads with user name
@@ -196,36 +206,43 @@ npm run dev
 ### Backend Won't Start
 
 **Issue:** `MongoDB Connection Error`
+
 - **Solution:** Check MongoDB is running and connection string is correct
 - **Solution:** For Atlas, verify IP whitelist and user credentials
 
 **Issue:** `Port 5000 already in use`
+
 - **Solution:** Change PORT in `.env` file to different port (e.g., 5001)
 - **Solution:** Or kill process using port: `lsof -ti:5000 | xargs kill`
 
 ### Mobile App Issues
 
 **Issue:** Can't connect to backend
+
 - **Solution:** Update API_URL in `mobile/src/services/api.ts` with correct IP
 - **Solution:** Ensure phone and computer on same WiFi
 - **Solution:** Check backend is running (`curl http://localhost:5000/api/health`)
 
 **Issue:** Metro bundler cache issues
+
 - **Solution:** Clear cache: `expo start -c`
 
 **Issue:** Dependencies not installing
+
 - **Solution:** Delete `node_modules` and `package-lock.json`, run `npm install` again
 - **Solution:** Try using `yarn` instead of `npm`
 
 ### iOS Simulator Issues
 
 **Issue:** Simulator not appearing
+
 - **Solution:** Open Xcode → Preferences → Locations → verify Command Line Tools selected
 - **Solution:** Run: `sudo xcode-select --switch /Applications/Xcode.app`
 
 ### Android Emulator Issues
 
 **Issue:** Emulator won't start
+
 - **Solution:** Check Android Studio AVD Manager
 - **Solution:** Ensure virtualization enabled in BIOS
 - **Solution:** Try creating new virtual device
@@ -252,6 +269,7 @@ npm start
 ### 3. Testing Features
 
 Test the following features work:
+
 - [ ] User registration
 - [ ] User login
 - [ ] Dashboard displays correctly
