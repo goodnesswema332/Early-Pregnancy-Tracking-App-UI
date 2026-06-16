@@ -46,8 +46,10 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Enable Corepack & pnpm
-        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.1
 
       - name: Install dependencies (service)
         working-directory: ${{ matrix.path }}
@@ -90,8 +92,10 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Enable Corepack & pnpm
-        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.1
 
       - name: Install dependencies (service)
         working-directory: ${{ matrix.path }}
@@ -130,8 +134,10 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Enable Corepack & pnpm
-        run: corepack enable && corepack prepare pnpm@8.6.1 --activate
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.1
 
       - name: Install all workspace dependencies
         run: pnpm -w install --frozen-lockfile --silent
