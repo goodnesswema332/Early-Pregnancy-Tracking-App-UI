@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  ignorePatterns: ["jest.config.js"],	
+  ignorePatterns: ["jest.config.js"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2020,
