@@ -6,7 +6,6 @@ import Faq from "../models/Faq";
 import fs from "fs";
 import path from "path";
 
-
 const router = express.Router();
 
 // FAQs - use DB when available
@@ -37,7 +36,7 @@ router.post("/faq", protect, async (req: any, res) => {
   try {
     const { category, question, answer } = req.body;
     if (!question || !answer)
-return res
+      return res
         .status(400)
         .json({ success: false, message: "Question and answer required" });
     const f = await Faq.create({
