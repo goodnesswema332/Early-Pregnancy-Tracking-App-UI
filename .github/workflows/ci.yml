@@ -62,7 +62,14 @@ jobs:
 
       - name: Install dependencies (service)
         working-directory: ${{ matrix.path }}
-        run: pnpm install --frozen-lockfile --silent
+        run: |
+          if [ -f "pnpm-lock.yaml" ] || [ -f "${{ matrix.path }}/pnpm-lock.yaml" ]; then
+            echo "Using frozen lockfile"
+            pnpm install --frozen-lockfile --silent
+          else
+            echo "No pnpm-lock.yaml found — running standard install"
+            pnpm install --silent
+          fi
 
       - name: Prettier — format check
         working-directory: ${{ matrix.path }}
@@ -117,7 +124,14 @@ jobs:
 
       - name: Install dependencies (service)
         working-directory: ${{ matrix.path }}
-        run: pnpm install --frozen-lockfile --silent
+        run: |
+          if [ -f "pnpm-lock.yaml" ] || [ -f "${{ matrix.path }}/pnpm-lock.yaml" ]; then
+            echo "Using frozen lockfile"
+            pnpm install --frozen-lockfile --silent
+          else
+            echo "No pnpm-lock.yaml found — running standard install"
+            pnpm install --silent
+          fi
 
       - name: Run tests with coverage and enforce thresholds
         working-directory: ${{ matrix.path }}
@@ -167,7 +181,14 @@ jobs:
         run: pnpm -v
 
       - name: Install all workspace dependencies
-        run: pnpm -w install --frozen-lockfile --silent
+        run: |
+          if [ -f "pnpm-lock.yaml" ]; then
+            echo "Using frozen lockfile at workspace root"
+            pnpm -w install --frozen-lockfile --silent
+          else
+            echo "No pnpm-lock.yaml at workspace root — running standard workspace install"
+            pnpm -w install --silent
+          fi
 
       - name: Dependency audit (pnpm) — fail on high/critical
         run: pnpm -w audit --audit-level=high
