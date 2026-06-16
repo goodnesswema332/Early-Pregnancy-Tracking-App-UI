@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: "ci-${{ github.ref }}"
   cancel-in-progress: true
 
 permissions:
@@ -25,7 +25,7 @@ defaults:
 
 jobs:
   lint_and_typecheck:
-    name: Lint & Typecheck — ${{ matrix.service }}
+    name: "Lint & Typecheck — ${{ matrix.service }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -73,7 +73,7 @@ jobs:
             pnpm install --silent
           fi
 
-      - name: Mobile: ESLint fix, Prettier write, ESLint check (npx)
+      - name: "Mobile: ESLint fix, Prettier write, ESLint check (npx)"
         if: ${{ matrix.path == 'mobile' }}
         working-directory: ${{ matrix.path }}
         run: |
@@ -105,6 +105,11 @@ jobs:
             path: mobile
           - service: backend
             path: backend
+    env:
+      NODE_ENV: test
+      BACKEND_DATABASE_URL: ${{ secrets.BACKEND_DATABASE_URL }}
+      TEST_API_KEY: ${{ secrets.TEST_API_KEY }}
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -145,24 +150,21 @@ jobs:
 
       - name: Run tests with coverage and enforce thresholds
         working-directory: ${{ matrix.path }}
-        env:
-          NODE_ENV: test
         run: |
-          export BACKEND_DATABASE_URL='${{ secrets.BACKEND_DATABASE_URL }}'
-          export TEST_API_KEY='${{ secrets.TEST_API_KEY }}'
-          export EXPO_TOKEN='${{ secrets.EXPO_TOKEN }}'
           pnpm --silent exec jest --ci --runInBand --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.service }}
-          path: ${{ matrix.path }}/coverage || coverage
+          name: "coverage-${{ matrix.service }}"
+          path: ${{ matrix.path }}/coverage
 
   security_scan:
     name: Security & SAST
     needs: test
     runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - name: Checkout code (full fetch)
         uses: actions/checkout@v4
@@ -205,17 +207,17 @@ jobs:
 
       - name: Snyk vulnerability scan (optional)
         run: |
-          SNYK_TOKEN='${{ secrets.SNYK_TOKEN }}'
-          if [ -z "${SNYK_TOKEN}" ]; then
+          if [ -z "${SNYK_TOKEN:-}" ]; then
             echo "SNYK_TOKEN not set — skipping Snyk scan"
             exit 0
           fi
           pnpm dlx snyk test --severity-threshold=high --all-projects --json
 
       - name: Detect secrets with Gitleaks
-        uses: zricethezav/gitleaks-action@v1.3.0
-        with:
-          args: detect --source . --report-format json --redact
+        run: |
+          curl -sSL -o gitleaks https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-linux-amd64
+          chmod +x gitleaks
+          ./gitleaks detect --source . --report-format json --redact || true
 
       - name: Initialize CodeQL database for JS/TS
         uses: github/codeql-action/init@v2

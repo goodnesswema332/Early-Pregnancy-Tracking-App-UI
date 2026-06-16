@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
 import User, { IUser } from "../models/User";
+import { verifyAccessToken } from "../utils/generateToken";
 
 export interface AuthRequest extends Request {
   user?: IUser;
@@ -12,7 +12,7 @@ export const protect = async (
   next: NextFunction,
 ) => {
   try {
-    let token;
+    let token: string | undefined;
 
     if (
       req.headers.authorization &&
@@ -22,36 +22,37 @@ export const protect = async (
     }
 
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authorized to access this route",
-      });
+      return res.status(401).json({ success: false, message: "Not authorized" });
     }
 
     try {
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET || "default-secret",
-      ) as { id: string };
+      const decoded = verifyAccessToken(token) as { id: string };
 
       const user = await User.findById(decoded.id);
 
       if (!user) {
-        return res.status(401).json({
-          success: false,
-          message: "User not found",
-        });
+        return res.status(401).json({ success: false, message: "User not found" });
       }
 
       req.user = user;
       next();
-    } catch (error) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authorized to access this route",
-      });
+    } catch (err) {
+      return res.status(401).json({ success: false, message: "Invalid or expired token" });
     }
   } catch (error) {
     next(error);
   }
+};
+
+export const requireRole = (roles: string | string[]) => {
+  const allowed = Array.isArray(roles) ? roles : [roles];
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "Not authorized" });
+    }
+    if (!allowed.includes(req.user.role as string)) {
+      return res.status(403).json({ success: false, message: "Forbidden" });
+    }
+    next();
+  };
 };

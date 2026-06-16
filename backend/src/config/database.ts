@@ -14,7 +14,7 @@ const connectDB = async (): Promise<void> => {
       const seedEmail = process.env.ADMIN_SEED_EMAIL;
       const seedPassword = process.env.ADMIN_SEED_PASSWORD;
       const seedRole = process.env.ADMIN_SEED_ROLE || "super";
-      const secret = process.env.ADMIN_CREATE_SECRET;
+      const _secret = process.env.ADMIN_CREATE_SECRET;
       if (seedEmail && seedPassword) {
         const exists = await User.findOne({ email: seedEmail });
         if (!exists) {

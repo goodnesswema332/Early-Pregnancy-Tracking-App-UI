@@ -1,9 +1,7 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import { protect } from "../middleware/auth";
 import ChatMessage from "../models/ChatMessage";
 import ChatSession from "../models/ChatSession";
-import User from "../models/User";
 
 const router = express.Router();
 
