@@ -1,0 +1,4 @@
+# Ignore TypeScript declaration files and generated types
+src/**/*.d.ts
+src/types/**
+node_modules/
