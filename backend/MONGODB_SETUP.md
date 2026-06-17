@@ -51,11 +51,13 @@
 ## Step 6: Update Backend Environment
 
 1. Copy `.env.example` to `.env`:
+
    ```bash
    cp .env.example .env
    ```
 
 2. Edit `.env` and add:
+
    ```env
    MONGODB_URI=mongodb+srv://app_user:yourpassword@cluster0.xxxxx.mongodb.net/pregnancy-prevention-app?retryWrites=true&w=majority
    JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
@@ -72,6 +74,7 @@
 ## Step 7: Test Connection
 
 1. Start the backend:
+
    ```bash
    npm run dev
    ```
