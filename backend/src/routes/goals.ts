@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Router } from "express";
 import { protect } from "../middleware/auth";
 import Goal from "../models/Goal";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get all user goals
 router.get("/", protect, async (req: any, res) => {

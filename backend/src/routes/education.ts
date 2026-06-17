@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import { protect } from "../middleware/auth";
 import Video from "../models/Video";
 import Topic from "../models/Topic";
@@ -6,7 +6,7 @@ import Faq from "../models/Faq";
 import fs from "fs";
 import path from "path";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // FAQs - use DB when available
 router.get("/faq", async (req: any, res) => {

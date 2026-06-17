@@ -94,14 +94,17 @@
 ## Troubleshooting
 
 **Connection timeout?**
+
 - Check if your IP is whitelisted in Network Access
 - Verify username/password are URL-encoded (special characters)
 
 **Authentication failed?**
+
 - Double-check the database user credentials
 - Ensure user has correct permissions
 
 **SSL/TLS errors?**
+
 - The connection string should include `retryWrites=true&w=majority`
 
 ## MongoDB Atlas Dashboard Link

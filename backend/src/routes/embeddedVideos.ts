@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import {
   createEmbeddedVideo,
   updateEmbeddedVideo,
@@ -8,7 +8,7 @@ import {
 } from "../controllers/embeddedVideoController";
 import { protect, requireRole } from "../middleware/auth";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Public listing
 router.get("/", listEmbeddedVideos);

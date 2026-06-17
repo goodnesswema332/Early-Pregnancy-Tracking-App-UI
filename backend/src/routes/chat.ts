@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Router } from "express";
 import { protect } from "../middleware/auth";
 import ChatMessage from "../models/ChatMessage";
 import ChatSession from "../models/ChatSession";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Create a new chat session (public)
 router.post("/sessions", async (req: any, res) => {

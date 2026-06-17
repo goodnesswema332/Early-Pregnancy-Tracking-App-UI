@@ -1,6 +1,6 @@
-import express from "express";
+import express, { Router } from "express";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get health services in Kiambu area
 router.get("/", (req, res) => {
