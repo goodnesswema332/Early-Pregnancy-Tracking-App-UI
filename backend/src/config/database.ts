@@ -2,19 +2,37 @@ import mongoose from "mongoose";
 import User from "../models/User";
 
 const connectDB = async (): Promise<void> => {
+  const mongoUri = process.env.MONGODB_URI;
+
+  if (!mongoUri) {
+    console.error("❌ MONGODB_URI not defined in environment variables");
+    if (process.env.NODE_ENV === "production") {
+      process.exit(1);
+    }
+    console.log("⚠️  Continuing without database (development mode)");
+    return;
+  }
+
+  // Connection options optimized for MongoDB Atlas
+  const options: mongoose.ConnectOptions = {
+    retryWrites: true,
+    w: "majority",
+    maxPoolSize: 10,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+  };
+
   try {
-    const conn = await mongoose.connect(
-      process.env.MONGODB_URI ||
-        "mongodb://localhost:27017/pregnancy-prevention-app",
-    );
+    const conn = await mongoose.connect(mongoUri, options);
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    console.log(`📊 Database: ${conn.connection.name}`);
+
     // Optional admin seeding
     try {
       const seedEmail = process.env.ADMIN_SEED_EMAIL;
       const seedPassword = process.env.ADMIN_SEED_PASSWORD;
       const seedRole = process.env.ADMIN_SEED_ROLE || "super";
-      const _secret = process.env.ADMIN_CREATE_SECRET;
       if (seedEmail && seedPassword) {
         const exists = await User.findOne({ email: seedEmail });
         if (!exists) {
@@ -28,17 +46,17 @@ const connectDB = async (): Promise<void> => {
         }
       }
     } catch (e) {
-      console.warn("Admin seed failed", e);
+      console.warn("⚠️  Admin seed failed:", (e as Error).message);
     }
   } catch (error: any) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
-    // In development, continue without DB. In production, exit.
+    console.error("💡 Tip: Check your MONGODB_URI in .env file");
+    console.error("📖 See MONGODB_SETUP.md for setup instructions");
+
     if (process.env.NODE_ENV === "production") {
       process.exit(1);
     } else {
-      console.log(
-        "⚠️  Continuing without database connection (development mode)",
-      );
+      console.log("⚠️  Continuing without database (development mode)");
     }
   }
 };

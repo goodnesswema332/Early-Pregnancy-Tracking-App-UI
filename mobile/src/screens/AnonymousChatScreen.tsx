@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import {
   SafeAreaView,
@@ -41,7 +43,6 @@ const AnonymousChatScreen = () => {
     if (!localSessionId) {
       const session = await createChatSession();
       setLocalSessionId(session.id);
-      // add message to session (server-backed)
       await sendMessageToSession(session.id, text, "user");
     } else {
       await sendMessageToSession(localSessionId, text, "user");
@@ -59,7 +60,6 @@ const AnonymousChatScreen = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   }, [messages]);
 
-  // sync messages from admin context session
   useEffect(() => {
     if (!localSessionId) return;
     const session = chatSessions.find((s) => s.id === localSessionId);
@@ -68,120 +68,129 @@ const AnonymousChatScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={90}
-      >
-        <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Ionicons name="chevron-back" size={24} color={COLORS.white} />
-          </TouchableOpacity>
-          <View style={styles.headerText}>
-            <Text style={styles.title}>Anonymous Chat</Text>
-            <Text style={styles.subtitle}>Private & confidential support</Text>
-          </View>
-        </View>
-
-        <View style={styles.noticeCard}>
-          <Ionicons
-            name="shield-checkmark"
-            size={18}
-            color={COLORS.info}
-            style={styles.noticeIcon}
-          />
-          <Text style={styles.noticeText}>
-            100% Anonymous. We don't collect personal information. Your
-            conversations are private and confidential.
-          </Text>
-        </View>
-
-        <ScrollView
-          style={styles.messageList}
-          ref={scrollViewRef}
-          contentContainerStyle={[
-            styles.messageContent,
-            { paddingBottom: 24 + insets.bottom },
-          ]}
+      {/* 3. Wrapped the inside with TouchableWithoutFeedback to catch taps on empty space.
+        accessible={false} ensures screen readers ignore this wrapper layout step.
+      */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          // 4. Reduced offset from 90 to 0 or a very minimal number depending on your navigation bar height.
+          keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} 
         >
-          {messages.map((msg) => (
-            <View
-              key={msg.id}
-              style={[
-                styles.messageBubble,
-                msg.sender === "user"
-                  ? styles.userBubble
-                  : styles.supportBubble,
-              ]}
+          <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
             >
-              {msg.sender === "support" && (
-                <Text style={styles.supportLabel}>Support Team</Text>
-              )}
-              <Text
+              <Ionicons name="chevron-back" size={24} color={COLORS.white} />
+            </TouchableOpacity>
+            <View style={styles.headerText}>
+              <Text style={styles.title}>Anonymous Chat</Text>
+              <Text style={styles.subtitle}>Private & confidential support</Text>
+            </View>
+          </View>
+
+          <View style={styles.noticeCard}>
+            <Ionicons
+              name="shield-checkmark"
+              size={18}
+              color={COLORS.info}
+              style={styles.noticeIcon}
+            />
+            <Text style={styles.noticeText}>
+              100% Anonymous. We don't collect personal information. Your
+              conversations are private and confidential.
+            </Text>
+          </View>
+
+          <ScrollView
+            style={styles.messageList}
+            ref={scrollViewRef}
+            // 5. keyboardShouldPersistTaps="handled" ensures that tapping 
+            // a retry button doesn't just close the keyboard, it actually fires the button press.
+            keyboardShouldPersistTaps="handled" 
+            contentContainerStyle={[
+              styles.messageContent,
+              { paddingBottom: 24 + insets.bottom },
+            ]}
+          >
+            {messages.map((msg) => (
+              <View
+                key={msg.id}
                 style={[
-                  styles.messageText,
-                  msg.sender === "user" ? styles.userText : styles.supportText,
+                  styles.messageBubble,
+                  msg.sender === "user"
+                    ? styles.userBubble
+                    : styles.supportBubble,
                 ]}
               >
-                {msg.text}
-              </Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {msg.status === "pending" && (
-                  <ActivityIndicator
-                    size="small"
-                    color={COLORS.info}
-                    style={{ marginRight: 6 }}
-                  />
-                )}
-                {msg.status === "failed" && (
-                  <TouchableOpacity
-                    onPress={async () => {
-                      await retryMessage(localSessionId!, msg.id);
-                    }}
-                    style={{ marginRight: 6 }}
-                  >
-                    <Ionicons name="alert-circle" size={16} color="#ef4444" />
-                  </TouchableOpacity>
+                {msg.sender === "support" && (
+                  <Text style={styles.supportLabel}>Support Team</Text>
                 )}
                 <Text
                   style={[
-                    styles.messageTime,
-                    msg.sender === "user"
-                      ? styles.userTime
-                      : styles.supportTime,
+                    styles.messageText,
+                    msg.sender === "user" ? styles.userText : styles.supportText,
                   ]}
                 >
-                  {formatTime(new Date(msg.timestamp))}
+                  {msg.text}
                 </Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {msg.status === "pending" && (
+                    <ActivityIndicator
+                      size="small"
+                      color={COLORS.info}
+                      style={{ marginRight: 6 }}
+                    />
+                  )}
+                  {msg.status === "failed" && (
+                    <TouchableOpacity
+                      onPress={async () => {
+                        await retryMessage(localSessionId!, msg.id);
+                      }}
+                      style={{ marginRight: 6 }}
+                    >
+                      <Ionicons name="alert-circle" size={16} color="#ef4444" />
+                    </TouchableOpacity>
+                  )}
+                  <Text
+                    style={[
+                      styles.messageTime,
+                      msg.sender === "user"
+                        ? styles.userTime
+                        : styles.supportTime,
+                    ]}
+                  >
+                    {formatTime(new Date(msg.timestamp))}
+                  </Text>
+                </View>
               </View>
-            </View>
-          ))}
-        </ScrollView>
+            ))}
+          </ScrollView>
 
-        <View style={[styles.inputArea, { paddingBottom: insets.bottom + 12 }]}>
-          <TextInput
-            style={styles.input}
-            value={message}
-            onChangeText={setMessage}
-            placeholder="Type your message..."
-            placeholderTextColor={COLORS.textSecondary}
-            multiline
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              !message.trim() && styles.sendButtonDisabled,
-            ]}
-            onPress={handleSend}
-            disabled={!message.trim()}
-          >
-            <Ionicons name="send" size={20} color={COLORS.white} />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+          <View style={[styles.inputArea, { paddingBottom: insets.bottom + 12 }]}>
+            <TextInput
+              style={styles.input}
+              value={message}
+              onChangeText={setMessage}
+              placeholder="Type your message..."
+              placeholderTextColor={COLORS.textSecondary}
+              multiline
+            />
+            <TouchableOpacity
+              style={[
+                styles.sendButton,
+                !message.trim() && styles.sendButtonDisabled,
+              ]}
+              onPress={handleSend}
+              disabled={!message.trim()}
+            >
+              <Ionicons name="send" size={20} color={COLORS.white} />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
