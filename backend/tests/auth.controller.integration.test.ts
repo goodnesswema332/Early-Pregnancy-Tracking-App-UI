@@ -7,7 +7,7 @@ import {
   seedAdmin,
 } from "../src/controllers/authController";
 import User from "../src/models/User";
-import _RefreshToken from "../src/models/RefreshToken";
+import RefreshToken from "../src/models/RefreshToken";
 
 function makeReq(body: any = {}, user: any = undefined) {
   return { body, user } as any;
@@ -100,7 +100,7 @@ describe("Auth controller integration (direct)", () => {
     const res2 = makeRes();
     const req2 = makeReq({
       name: "Seed",
-      email: "seed@example.com",
+      email: "seed2@example.com",
       password: "seedpass",
       secret: "topsecret",
     });

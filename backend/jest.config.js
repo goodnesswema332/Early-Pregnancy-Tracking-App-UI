@@ -4,4 +4,14 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testTimeout: 30000,
   roots: ["<rootDir>/src", "<rootDir>/tests"],
+  transform: {
+    "^.+\.tsx?$": [
+      "ts-jest",
+      {
+        diagnostics: {
+          ignoreCodes: [151002]
+        }
+      }
+    ]
+  }
 };
