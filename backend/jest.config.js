@@ -9,9 +9,9 @@ module.exports = {
       "ts-jest",
       {
         diagnostics: {
-          ignoreCodes: [151002]
-        }
-      }
-    ]
-  }
+          ignoreCodes: [151002],
+        },
+      },
+    ],
+  },
 };
