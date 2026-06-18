@@ -47,12 +47,14 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Setup pnpm
+      - name: Setup pnpm (Frontend only)
+        if: ${{ matrix.service == 'frontend' }}
         uses: pnpm/action-setup@v4
         with:
           version: 11.7.0
 
       - name: Cache pnpm store
+        if: ${{ matrix.service == 'frontend' }}
         uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
@@ -60,10 +62,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - name: Verify pnpm installed
-        run: pnpm -v
-
-      - name: Install dependencies (service)
+      - name: Install dependencies (Frontend)
+        if: ${{ matrix.service == 'frontend' }}
         working-directory: ${{ matrix.path }}
         run: |
           if [ -f "pnpm-lock.yaml" ] || [ -f "${{ matrix.path }}/pnpm-lock.yaml" ]; then
@@ -72,6 +72,18 @@ jobs:
           else
             echo "No pnpm-lock.yaml found — running standard install"
             pnpm install --silent
+          fi
+
+      - name: Install dependencies (Backend)
+        if: ${{ matrix.service == 'backend' }}
+        working-directory: ${{ matrix.path }}
+        run: |
+          if [ -f "package-lock.json" ]; then
+            echo "Using clean install (npm ci)"
+            npm ci --silent
+          else
+            echo "No package-lock.json found — running standard install"
+            npm install --silent
           fi
 
       - name: "Mobile: ESLint fix, Prettier write, ESLint check (npx)"
@@ -84,15 +96,30 @@ jobs:
 
       - name: Prettier — format check
         working-directory: ${{ matrix.path }}
-        run: pnpm --silent exec prettier --ignore-path .gitignore --check .
+        run: |
+          if [ "${{ matrix.service }}" == "frontend" ]; then
+            pnpm --silent exec prettier --ignore-path .gitignore --check .
+          else
+            npx prettier --ignore-path .gitignore --check .
+          fi
 
       - name: ESLint
         working-directory: ${{ matrix.path }}
-        run: pnpm --silent exec eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0
+        run: |
+          if [ "${{ matrix.service }}" == "frontend" ]; then
+            pnpm --silent exec eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0
+          else
+            npx eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0
+          fi
 
       - name: TypeScript — typecheck
         working-directory: ${{ matrix.path }}
-        run: pnpm --silent exec tsc --noEmit
+        run: |
+          if [ "${{ matrix.service }}" == "frontend" ]; then
+            pnpm --silent exec tsc --noEmit
+          else
+            npx tsc --noEmit
+          fi
 
   test:
     name: Tests — ${{ matrix.service }}
@@ -122,12 +149,14 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Setup pnpm
+      - name: Setup pnpm (Frontend only)
+        if: ${{ matrix.service == 'frontend' }}
         uses: pnpm/action-setup@v4
         with:
           version: 11.7.0
 
       - name: Cache pnpm store
+        if: ${{ matrix.service == 'frontend' }}
         uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
@@ -135,24 +164,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - name: Verify pnpm installed
-        run: pnpm -v
-
-      - name: Install dependencies (service)
+      - name: Install dependencies (Frontend)
+        if: ${{ matrix.service == 'frontend' }}
         working-directory: ${{ matrix.path }}
         run: |
           if [ -f "pnpm-lock.yaml" ] || [ -f "${{ matrix.path }}/pnpm-lock.yaml" ]; then
-            echo "Using frozen lockfile"
             pnpm install --frozen-lockfile --silent
           else
-            echo "No pnpm-lock.yaml found — running standard install"
             pnpm install --silent
+          fi
+
+      - name: Install dependencies (Backend)
+        if: ${{ matrix.service == 'backend' }}
+        working-directory: ${{ matrix.path }}
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci --silent
+          else
+            npm install --silent
           fi
 
       - name: Run tests with coverage and enforce thresholds
         working-directory: ${{ matrix.path }}
         run: |
-          pnpm --silent exec jest --ci --runInBand --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
+          if [ "${{ matrix.service }}" == "frontend" ]; then
+            pnpm --silent exec jest --ci --runInBand --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
+          else
+            npx jest --ci --runInBand --coverage --coverageThreshold='{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'
+          fi
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
@@ -182,29 +221,29 @@ jobs:
         with:
           version: 11.7.0
 
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: Verify pnpm installed
-        run: pnpm -v
-
-      - name: Install all workspace dependencies
+      - name: Install frontend/workspace dependencies
         run: |
           if [ -f "pnpm-lock.yaml" ]; then
-            echo "Using frozen lockfile at workspace root"
             pnpm -w install --frozen-lockfile --silent
           else
-            echo "No pnpm-lock.yaml at workspace root — running standard workspace install"
             pnpm -w install --silent
           fi
 
-      - name: Dependency audit (pnpm) — fail on high/critical
+      - name: Install backend dependencies (npm)
+        working-directory: backend
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci --silent
+          else
+            npm install --silent
+          fi
+
+      - name: Dependency audit (pnpm) — Frontend
         run: pnpm -w audit --audit-level=high
+
+      - name: Dependency audit (npm) — Backend
+        working-directory: backend
+        run: npm audit --audit-level=high
 
       - name: Snyk vulnerability scan (optional)
         run: |
@@ -212,7 +251,7 @@ jobs:
             echo "SNYK_TOKEN not set — skipping Snyk scan"
             exit 0
           fi
-          pnpm dlx snyk test --severity-threshold=high --all-projects --json
+          npx snyk test --severity-threshold=high --all-projects --json
 
       - name: Detect secrets with Gitleaks
         run: |
