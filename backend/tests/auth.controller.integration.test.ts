@@ -7,7 +7,6 @@ import {
   seedAdmin,
 } from "../src/controllers/authController";
 import User from "../src/models/User";
-import RefreshToken from "../src/models/RefreshToken";
 
 function makeReq(body: any = {}, user: any = undefined) {
   return { body, user } as any;
