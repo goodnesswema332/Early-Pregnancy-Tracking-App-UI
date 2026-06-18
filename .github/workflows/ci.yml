@@ -230,3 +230,12 @@ jobs:
 
       - name: Run CodeQL analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          upload: false
+          output: codeql-results
+
+      - name: Upload CodeQL SARIF as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-sarif
+          path: codeql-results
