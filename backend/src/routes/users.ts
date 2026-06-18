@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Router } from "express";
 import { protect } from "../middleware/auth";
 import User from "../models/User";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get user progress
 router.get("/progress", protect, async (req: any, res) => {

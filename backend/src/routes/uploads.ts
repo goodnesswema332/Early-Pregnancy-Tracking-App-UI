@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Router } from "express";
 import { generatePresignedUploadUrl, uploadBuffer } from "../utils/r2";
 import { protect, requireRole } from "../middleware/auth";
 import multer from "multer";
 
-const router = express.Router();
+const router: Router = express.Router();
 const upload = multer();
 
 // Generate presigned URL for client direct upload to R2

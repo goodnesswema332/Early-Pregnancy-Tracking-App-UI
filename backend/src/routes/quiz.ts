@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Router } from "express";
 import { protect } from "../middleware/auth";
 import QuizResult from "../models/QuizResult";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get user quiz results
 router.get("/results", protect, async (req: any, res) => {
