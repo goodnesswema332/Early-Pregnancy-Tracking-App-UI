@@ -59,7 +59,7 @@ export function AnonymousChat() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col pb-20">
+    <div className="min-h-screen bg-[#D95F8A] flex flex-col pb-20">
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-6 sticky top-0 z-10 shadow-md">
         <div className="max-w-md mx-auto">

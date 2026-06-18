@@ -108,7 +108,7 @@ export function EducationalLibrary() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-[#D95F8A] pb-20">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-md mx-auto px-6 py-4">

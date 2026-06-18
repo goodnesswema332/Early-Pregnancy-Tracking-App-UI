@@ -28,7 +28,7 @@ export function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white pb-20">
+    <div className="min-h-screen bg-[#D95F8A] pb-20">
       {/* Header */}
       <header className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-6 py-8 rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto">

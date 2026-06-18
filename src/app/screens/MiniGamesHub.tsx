@@ -87,7 +87,7 @@ export function MiniGamesHub() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-coral-50 to-white pb-20">
+    <div className="min-h-screen bg-[#D95F8A] pb-20">
       {/* Header */}
       <header className="bg-gradient-to-r from-coral-500 to-coral-600 text-white px-6 py-6 rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto">

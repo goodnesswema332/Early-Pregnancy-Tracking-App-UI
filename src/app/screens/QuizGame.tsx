@@ -104,7 +104,7 @@ export function QuizGame() {
   if (isComplete) {
     const percentage = Math.round((score / quiz.questions.length) * 100);
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#D95F8A] flex items-center justify-center p-6">
         <Card className="max-w-md w-full shadow-xl">
           <CardHeader className="text-center">
             <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white text-3xl">
@@ -146,7 +146,7 @@ export function QuizGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white pb-6">
+    <div className="min-h-screen bg-[#D95F8A] pb-6">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-md mx-auto px-6 py-4">
