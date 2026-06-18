@@ -179,7 +179,7 @@ export const refreshToken = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "refreshToken required" });
 
-    const parsed = (await import("../utils/generateToken")).parseRefreshToken(
+    const parsed = (await import("../utils/generateToken.js")).parseRefreshToken(
       refreshToken,
     );
     if (!parsed)
@@ -236,7 +236,7 @@ export const logout = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "refreshToken required" });
 
-    const parsed = (await import("../utils/generateToken")).parseRefreshToken(
+    const parsed = (await import("../utils/generateToken.js")).parseRefreshToken(
       refreshToken,
     );
     if (!parsed) return res.status(200).json({ success: true });
