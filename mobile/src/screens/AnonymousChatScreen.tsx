@@ -76,7 +76,7 @@ const AnonymousChatScreen = () => {
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           // 4. Reduced offset from 90 to 0 or a very minimal number depending on your navigation bar height.
-          keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} 
+          keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         >
           <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
             <TouchableOpacity
@@ -87,7 +87,9 @@ const AnonymousChatScreen = () => {
             </TouchableOpacity>
             <View style={styles.headerText}>
               <Text style={styles.title}>Anonymous Chat</Text>
-              <Text style={styles.subtitle}>Private & confidential support</Text>
+              <Text style={styles.subtitle}>
+                Private & confidential support
+              </Text>
             </View>
           </View>
 
@@ -107,9 +109,9 @@ const AnonymousChatScreen = () => {
           <ScrollView
             style={styles.messageList}
             ref={scrollViewRef}
-            // 5. keyboardShouldPersistTaps="handled" ensures that tapping 
+            // 5. keyboardShouldPersistTaps="handled" ensures that tapping
             // a retry button doesn't just close the keyboard, it actually fires the button press.
-            keyboardShouldPersistTaps="handled" 
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={[
               styles.messageContent,
               { paddingBottom: 24 + insets.bottom },
@@ -131,7 +133,9 @@ const AnonymousChatScreen = () => {
                 <Text
                   style={[
                     styles.messageText,
-                    msg.sender === "user" ? styles.userText : styles.supportText,
+                    msg.sender === "user"
+                      ? styles.userText
+                      : styles.supportText,
                   ]}
                 >
                   {msg.text}
@@ -169,7 +173,9 @@ const AnonymousChatScreen = () => {
             ))}
           </ScrollView>
 
-          <View style={[styles.inputArea, { paddingBottom: insets.bottom + 12 }]}>
+          <View
+            style={[styles.inputArea, { paddingBottom: insets.bottom + 12 }]}
+          >
             <TextInput
               style={styles.input}
               value={message}
