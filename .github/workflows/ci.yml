@@ -220,12 +220,12 @@ jobs:
           ./gitleaks detect --source . --report-format json --redact || true
 
       - name: Initialize CodeQL database for JS/TS
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
 
       - name: Autobuild for CodeQL
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@v3
 
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
