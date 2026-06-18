@@ -7,6 +7,12 @@ import {
   seedAdmin,
 } from "../src/controllers/authController";
 import User from "../src/models/User";
+import RefreshToken from "../src/models/RefreshToken";
+import {
+  generateRefreshTokenPair,
+  parseRefreshToken,
+} from "../src/utils/generateToken";
+import bcrypt from "bcryptjs";
 
 function makeReq(body: any = {}, user: any = undefined) {
   return { body, user } as any;
@@ -31,6 +37,10 @@ function makeRes() {
 }
 
 describe("Auth controller integration (direct)", () => {
+  afterEach(() => {
+    delete process.env.ADMIN_CREATE_SECRET;
+  });
+
   const user = {
     name: "Ctrl User",
     email: "ctrl@example.com",
@@ -106,5 +116,164 @@ describe("Auth controller integration (direct)", () => {
     await seedAdmin(req2 as any, res2 as any);
     const out2 = res2._get();
     expect([200, 201]).toContain(out2.statusCode);
+  });
+
+  it("register rejects duplicates and protected roles without the admin secret", async () => {
+    const first = makeRes();
+    await register(makeReq(user) as any, first as any);
+    expect(first._get().statusCode).toBe(201);
+
+    const duplicate = makeRes();
+    await register(makeReq(user) as any, duplicate as any);
+    expect(duplicate._get().statusCode).toBe(400);
+
+    const protectedRole = makeRes();
+    await register(
+      makeReq({
+        name: "Admin User",
+        email: "admin@example.com",
+        password: "passw0rd",
+        role: "admin",
+      }) as any,
+      protectedRole as any,
+    );
+    expect(protectedRole._get().statusCode).toBe(403);
+  });
+
+  it("register allows protected roles with the admin secret", async () => {
+    process.env.ADMIN_CREATE_SECRET = "topsecret";
+    const res = makeRes();
+    await register(
+      makeReq({
+        name: "Admin User",
+        email: "admin@example.com",
+        password: "passw0rd",
+        role: "admin",
+        adminSecret: "topsecret",
+      }) as any,
+      res as any,
+    );
+    const out = res._get();
+    expect(out.statusCode).toBe(201);
+    expect(out.body.data.role).toBe("admin");
+  });
+
+  it("login rejects missing users and incorrect passwords", async () => {
+    const missing = makeRes();
+    await login(
+      makeReq({ email: "missing@example.com", password: "passw0rd" }) as any,
+      missing as any,
+    );
+    expect(missing._get().statusCode).toBe(401);
+
+    await User.create(user);
+    const wrongPassword = makeRes();
+    await login(
+      makeReq({ email: user.email, password: "wrongpass" }) as any,
+      wrongPassword as any,
+    );
+    expect(wrongPassword._get().statusCode).toBe(401);
+  });
+
+  it("refreshToken rejects invalid refresh token requests", async () => {
+    const missing = makeRes();
+    await refreshToken(makeReq({}) as any, missing as any);
+    expect(missing._get().statusCode).toBe(400);
+
+    const badFormat = makeRes();
+    await refreshToken(
+      makeReq({ refreshToken: "not-a-refresh-token" }) as any,
+      badFormat as any,
+    );
+    expect(badFormat._get().statusCode).toBe(401);
+
+    const unknown = makeRes();
+    await refreshToken(
+      makeReq({ refreshToken: generateRefreshTokenPair().token }) as any,
+      unknown as any,
+    );
+    expect(unknown._get().statusCode).toBe(401);
+  });
+
+  it("refreshToken rejects expired and mismatched token secrets", async () => {
+    const storedUser = await User.create(user);
+    const expiredPair = generateRefreshTokenPair();
+    const expiredParsed = parseRefreshToken(expiredPair.token)!;
+    await RefreshToken.create({
+      user: storedUser._id,
+      tokenId: expiredParsed.tokenId,
+      tokenHash: await bcrypt.hash(expiredParsed.tokenSecret, 10),
+      expiresAt: new Date(Date.now() - 1000),
+    });
+
+    const expired = makeRes();
+    await refreshToken(
+      makeReq({ refreshToken: expiredPair.token }) as any,
+      expired as any,
+    );
+    expect(expired._get().statusCode).toBe(401);
+
+    const mismatchPair = generateRefreshTokenPair();
+    const mismatchParsed = parseRefreshToken(mismatchPair.token)!;
+    await RefreshToken.create({
+      user: storedUser._id,
+      tokenId: mismatchParsed.tokenId,
+      tokenHash: await bcrypt.hash("different-secret", 10),
+      expiresAt: new Date(Date.now() + 60_000),
+    });
+
+    const mismatch = makeRes();
+    await refreshToken(
+      makeReq({ refreshToken: mismatchPair.token }) as any,
+      mismatch as any,
+    );
+    expect(mismatch._get().statusCode).toBe(401);
+  });
+
+  it("logout handles missing and malformed refresh tokens", async () => {
+    const missing = makeRes();
+    await logout(makeReq({}) as any, missing as any);
+    expect(missing._get().statusCode).toBe(400);
+
+    const malformed = makeRes();
+    await logout(
+      makeReq({ refreshToken: "not-a-refresh-token" }) as any,
+      malformed as any,
+    );
+    expect(malformed._get().statusCode).toBe(200);
+  });
+
+  it("seedAdmin validates required fields and returns existing users", async () => {
+    process.env.ADMIN_CREATE_SECRET = "topsecret";
+
+    const missingEmail = makeRes();
+    await seedAdmin(
+      makeReq({ password: "seedpass", secret: "topsecret" }) as any,
+      missingEmail as any,
+    );
+    expect(missingEmail._get().statusCode).toBe(400);
+
+    const create = makeRes();
+    await seedAdmin(
+      makeReq({
+        email: "existing@example.com",
+        password: "seedpass",
+        secret: "topsecret",
+      }) as any,
+      create as any,
+    );
+    expect(create._get().statusCode).toBe(201);
+    expect(create._get().body.data.name).toBe("Seed Admin");
+
+    const existing = makeRes();
+    await seedAdmin(
+      makeReq({
+        email: "existing@example.com",
+        password: "seedpass",
+        secret: "topsecret",
+      }) as any,
+      existing as any,
+    );
+    expect(existing._get().statusCode).toBe(200);
   });
 });

@@ -1,11 +1,13 @@
 packages:
   - "mobile"
   - "backend"
+overrides:
+  vite: 6.3.5
 allowBuilds:
   "@tailwindcss/oxide": true
   esbuild: true
-  mongodb-memory-server: set this to true or false
-  unrs-resolver: set this to true or false
+  mongodb-memory-server: true
+  unrs-resolver: true
 minimumReleaseAgeExclude:
   - '@aws-sdk/checksums@3.1000.6'
   - '@aws-sdk/client-s3@3.1069.0'

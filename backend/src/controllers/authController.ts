@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import User from "../models/User";
-import mongoose from "mongoose";
 import RefreshToken from "../models/RefreshToken";
 import bcrypt from "bcryptjs";
 import {
   generateAccessToken,
   generateRefreshTokenPair,
+  parseRefreshToken,
 } from "../utils/generateToken";
 
 export const register = async (req: Request, res: Response) => {
@@ -37,18 +37,6 @@ export const register = async (req: Request, res: Response) => {
 
     // Create user
     const user = await User.create({ name, email, password, role: createRole });
-    const totalAfterCreate = await User.countDocuments({});
-    console.log(
-      "authController.register: total users after create=",
-      totalAfterCreate,
-      "collection=",
-      (User as any).collection?.name,
-      "mongoose readyState=",
-      mongoose.connection.readyState,
-      "dbName=",
-      mongoose.connection.name || (mongoose.connection as any).db?.databaseName,
-    );
-
     if (user) {
       // create refresh token entry
       const { token, tokenId, tokenSecret, expiresAt } =
@@ -82,27 +70,6 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log("authController.login: attempt for", email);
-    const totalUsers = await User.countDocuments({});
-    console.log(
-      "authController.login: total users in collection=",
-      totalUsers,
-      "collection=",
-      (User as any).collection?.name,
-      "mongoose readyState=",
-      mongoose.connection.readyState,
-      "dbName=",
-      mongoose.connection.name || (mongoose.connection as any).db?.databaseName,
-    );
-    try {
-      const docs = await (mongoose.connection.db as any)
-        .collection((User as any).collection?.name || "users")
-        .find({})
-        .toArray();
-      console.log("authController.login: raw users docs length=", docs.length);
-    } catch (e) {
-      console.log("authController.login: raw users docs fetch error", e);
-    }
 
     // Check for user
     const user = await User.findOne({ email }).select("+password");
@@ -112,17 +79,8 @@ export const login = async (req: Request, res: Response) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // Debug: ensure password present
-    console.log(
-      "authController.login: user found for",
-      email,
-      "passwordPresent=",
-      !!(user as any).password,
-    );
-
     // Check password
     const isMatch = await user.comparePassword(password);
-    console.log("authController.login: compare result for", email, isMatch);
     if (!isMatch) {
       return res
         .status(401)
@@ -179,9 +137,7 @@ export const refreshToken = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "refreshToken required" });
 
-    const parsed = (
-      await import("../utils/generateToken.js")
-    ).parseRefreshToken(refreshToken);
+    const parsed = parseRefreshToken(refreshToken);
     if (!parsed)
       return res
         .status(401)
@@ -236,9 +192,7 @@ export const logout = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "refreshToken required" });
 
-    const parsed = (
-      await import("../utils/generateToken.js")
-    ).parseRefreshToken(refreshToken);
+    const parsed = parseRefreshToken(refreshToken);
     if (!parsed) return res.status(200).json({ success: true });
 
     const { tokenId } = parsed as any;

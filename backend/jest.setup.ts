@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server"; // <-- Replaced require() with import
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 let mongo: any;
 
