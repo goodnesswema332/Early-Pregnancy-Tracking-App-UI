@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 
-let mongo: MongoMemoryServer;
+// Use dynamic import to avoid ESM/CJS issues with mongodb-memory-server
+let mongo: any;
 
 beforeAll(async () => {
+  const { MongoMemoryServer } = await import("mongodb-memory-server");
   mongo = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongo.getUri();
   await mongoose.connect(process.env.MONGODB_URI || "");
