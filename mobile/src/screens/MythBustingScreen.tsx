@@ -239,7 +239,7 @@ const MythBustingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.coral[50] },
+  container: { flex: 1, backgroundColor: COLORS.background },
   contentContainer: { paddingBottom: 32 },
   header: {
     backgroundColor: COLORS.coral[600],

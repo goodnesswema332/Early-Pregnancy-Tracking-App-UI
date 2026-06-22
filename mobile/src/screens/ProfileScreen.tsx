@@ -8,6 +8,8 @@ import {
   Modal,
   TextInput,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import {
   SafeAreaView,
@@ -382,7 +384,10 @@ const ProfileScreen = () => {
           animationType="slide"
           onRequestClose={handleCloseModal}
         >
-          <View style={styles.modalOverlay}>
+          <KeyboardAvoidingView
+            style={styles.modalOverlay}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
             <View style={styles.modalContent}>
               {/* Modal Header */}
               <View style={styles.modalHeader}>
@@ -604,7 +609,7 @@ const ProfileScreen = () => {
                 )}
               </ScrollView>
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </Modal>
       </ScrollView>
     </SafeAreaView>
