@@ -22,6 +22,12 @@ import GoalEditorScreen from "../screens/GoalEditorScreen";
 import AdminTopicsScreen from "../screens/AdminTopicsScreen";
 import AdminFaqsScreen from "../screens/AdminFaqsScreen";
 import SuperAdminManagementScreen from "../screens/SuperAdminManagementScreen";
+import AdminManagementScreen from "../screens/AdminManagementScreen";
+
+// New Admin Screens
+import AdminVideosScreen from "../screens/AdminVideosScreen";
+import AdminGamesScreen from "../screens/AdminGamesScreen";
+import AdminServicesScreen from "../screens/AdminServicesScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,18 +50,26 @@ const RootNavigator = () => {
       <Stack.Screen name="GoalEditor" component={GoalEditorScreen} />
       <Stack.Screen name="Videos" component={VideosScreen} />
       <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+
+      {/* Admin Navigations */}
       <Stack.Screen name="AdminChatDetail" component={AdminChatDetailScreen} />
+      <Stack.Screen name="AdminTopics" component={AdminTopicsScreen} />
+      <Stack.Screen name="AdminFaqs" component={AdminFaqsScreen} />
+      <Stack.Screen name="AdminVideos" component={AdminVideosScreen} />
+      <Stack.Screen name="AdminGames" component={AdminGamesScreen} />
+      <Stack.Screen name="AdminServices" component={AdminServicesScreen} />
+      <Stack.Screen name="AdminManagement" component={AdminManagementScreen} />
+      <Stack.Screen
+        name="SuperAdminManagement"
+        component={SuperAdminManagementScreen}
+      />
+
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Help" component={HelpScreen} />
       <Stack.Screen name="TopicDetail" component={TopicDetailScreen} />
-      <Stack.Screen name="AdminTopics" component={AdminTopicsScreen} />
-      <Stack.Screen name="AdminFaqs" component={AdminFaqsScreen} />
-      <Stack.Screen
-        name="SuperAdminManagement"
-        component={SuperAdminManagementScreen}
-      />
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>

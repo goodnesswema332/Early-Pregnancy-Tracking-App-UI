@@ -48,7 +48,7 @@ export const COLORS = {
   info: "#3B82F6",
 
   // Background
-  background: "#F9FAFB",
+  background: "#D95F8A",
   surface: "#FFFFFF",
 
   // Text

@@ -53,6 +53,14 @@ export type ServiceItem = {
   protected?: boolean;
 };
 
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string;
+  protected?: boolean;
+};
+
 export type VideoItem = {
   id: string;
   title: string;
@@ -130,6 +138,10 @@ type AdminContextType = {
     lng: number,
     limit?: number,
   ) => ServiceItem[];
+
+  faqs: FaqItem[];
+  addFaq: (faq: Omit<FaqItem, "id">) => FaqItem;
+  removeFaq: (id: string) => boolean;
 
   videos: VideoItem[];
   addVideo: (v: Omit<VideoItem, "id">) => Promise<VideoItem>;
@@ -257,6 +269,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
   const [pendingAdmins, setPendingAdmins] = useState<AdminUser[]>([]);
 
   const [games, setGames] = useState<GameItem[]>([]);
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
   const [services, setServices] = useState<ServiceItem[]>([
     {
       id: "svc-1",
@@ -316,6 +329,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
           if (parsed.services) setServices(parsed.services);
           if (parsed.videos) setVideos(parsed.videos);
           if (parsed.chatSessions) setChatSessions(parsed.chatSessions);
+          if (parsed.faqs) setFaqs(parsed.faqs);
         } else {
           // Initialize with sample super admin
           const superAdmin = createSampleSuperAdmin();
@@ -383,6 +397,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
           services,
           videos,
           chatSessions,
+          faqs,
         });
         await AsyncStorage.setItem(STORAGE_KEY, payload);
         if (currentAdmin) {
@@ -405,6 +420,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     services,
     videos,
     chatSessions,
+    faqs,
     currentAdmin,
   ]);
 
@@ -503,7 +519,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     // In production, this would validate against the backend
-    // For now, we check against local state
     const allAdmins = [...admins, ...pendingAdmins];
     const found = allAdmins.find(
       (a) => a.email.toLowerCase() === email.toLowerCase(),
@@ -529,10 +544,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
           "Your account has been suspended. Please contact a Super Admin for assistance.",
       };
     }
-
-    // In production, verify password hash here
-    // For demo purposes, we accept any password for the super admin sample account
-    // In a real app, use bcrypt or similar
 
     setCurrentAdmin({ ...found, lastLoginAt: now() });
     return { success: true, message: "Login successful" };
@@ -750,6 +761,23 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     if (svc.protected && currentAdmin?.role !== "super") return false;
     if (!currentAdmin || !hasPrivilege("canCreateContent")) return false;
     setServices((s) => s.filter((x) => x.id !== id));
+    return true;
+  };
+
+  const addFaq = (faq: Omit<FaqItem, "id">) => {
+    if (!currentAdmin || !hasPrivilege("canCreateContent"))
+      throw new Error("Not authorized");
+    const newFaq: FaqItem = { id: `faq-${Date.now()}`, ...faq };
+    setFaqs((cur) => [newFaq, ...cur]);
+    return newFaq;
+  };
+
+  const removeFaq = (id: string) => {
+    const faq = faqs.find((x) => x.id === id);
+    if (!faq) return false;
+    if (faq.protected && currentAdmin?.role !== "super") return false;
+    if (!currentAdmin || !hasPrivilege("canCreateContent")) return false;
+    setFaqs((s) => s.filter((x) => x.id !== id));
     return true;
   };
 
@@ -1244,6 +1272,9 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
     addService,
     removeService,
     findNearestServices,
+    faqs,
+    addFaq,
+    removeFaq,
     videos,
     addVideo,
     removeVideo,

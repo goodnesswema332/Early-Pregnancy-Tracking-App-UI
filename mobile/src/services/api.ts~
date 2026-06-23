@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const API_URL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:5000/api"
-    : "https://early-pregnancy-tracking-app-ui.onrender.com/api";
+    : "https://your-production-api.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
